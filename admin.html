@@ -3,18 +3,19 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Admin - Global Relations Timeline</title>
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <title>Global Relations Timeline - Admin Panel</title>
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+  <link rel="stylesheet" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
 </head>
 <body>
   <header>
-    <h1>Global Relations Timeline - Admin Panel</h1>
+    <h1>Global Relations Timeline - Admin</h1>
     <nav>
       <a href="index.html">View Timeline</a>
       <a href="about.html">About</a>
       <a href="contribute.html">Contribute</a>
-      <a href="admin.html" class="active">Admin</a>
+      <a href="admin.html">Admin</a>
     </nav>
   </header>
 
@@ -28,93 +29,41 @@
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
-      const submissionList = document.getElementById('submission-list');
-      
-      // Load pending submissions
-      async function loadSubmissions() {
-        try {
-          const response = await fetch('/api/submissions');
-          const submissions = await response.json();
-          
-          if (!response.ok) {
-            throw new Error(submissions.message || 'Failed to load submissions');
-          }
-          
-          if (submissions.length === 0) {
-            submissionList.innerHTML = '<p>No pending submissions.</p>';
-            return;
-          }
-          
-          submissionList.innerHTML = submissions.map(sub => `
-            <div class="submission">
-              <h3>${sub.text.headline}</h3>
-              <p><strong>Date:</strong> ${sub.start_date.year}-${sub.start_date.month}-${sub.start_date.day}</p>
-              <p><strong>Region:</strong> ${sub.group}</p>
-              <p><strong>Category:</strong> ${sub.category}</p>
-              <p>${sub.text.text}</p>
-              ${sub.media ? `<img src="${sub.media.url}" alt="Event image" style="max-width: 200px; max-height: 150px;">` : ''}
-              <div class="actions">
-                <button onclick="approveSubmission('${sub.id}')">Approve</button>
-                <button onclick="rejectSubmission('${sub.id}')">Reject</button>
-              </div>
-            </div>
-          `).join('');
-        } catch (error) {
-          console.error('Error loading submissions:', error);
-          submissionList.innerHTML = `<p class="error">Error loading submissions: ${error.message}</p>`;
-        }
+    async function loadSubmissions() {
+      try {
+        const response = await fetch('/api/submissions');
+        const submissions = await response.json();
+        const list = document.getElementById('submission-list');
+        list.innerHTML = submissions.map(s => `
+          <div>
+            <p><strong>${s.text.headline}</strong> (${s.start_date.year}-${s.start_date.month}-${s.start_date.day}, ${s.group}, ${s.category})</p>
+            <p>${s.text.text}</p>
+            ${s.media ? `<p>Image: <a href="${s.media.url}" target="_blank">${s.media.url}</a></p>` : ''}
+            <button onclick="handleAction('${s.id}', 'approve')">Approve</button>
+            <button onclick="handleAction('${s.id}', 'reject')">Reject</button>
+          </div>
+        `).join('');
+      } catch (error) {
+        document.getElementById('submission-list').innerHTML = '<p>Error loading submissions</p>';
       }
-      
-      // Approve a submission
-      window.approveSubmission = async (id) => {
-        try {
-          const response = await fetch('/api/approve-event', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id, action: 'approve' })
-          });
-          const result = await response.json();
-          
-          if (!response.ok) {
-            throw new Error(result.message || 'Failed to approve submission');
-          }
-          
-          alert('Submission approved and added to timeline!');
-          loadSubmissions();
-        } catch (error) {
-          console.error('Approval error:', error);
-          alert(`Error: ${error.message}`);
-        }
-      };
-      
-      // Reject a submission
-      window.rejectSubmission = async (id) => {
-        if (!confirm('Are you sure you want to reject this submission?')) return;
-        
-        try {
-          const response = await fetch('/api/approve-event', {
-            method: 'POST',
-            headers: { 'Content-Type': 'application/json' },
-            body: JSON.stringify({ id, action: 'reject' })
-          });
-          const result = await response.json();
-          
-          if (!response.ok) {
-            throw new Error(result.message || 'Failed to reject submission');
-          }
-          
-          alert('Submission rejected.');
-          loadSubmissions();
-        } catch (error) {
-          console.error('Rejection error:', error);
-          alert(`Error: ${error.message}`);
-        }
-      };
-      
-      // Initial load
-      loadSubmissions();
-    });
+    }
+
+    async function handleAction(id, action) {
+      try {
+        const response = await fetch('/api/approve-event', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, action })
+        });
+        const result = await response.json();
+        alert(result.message);
+        loadSubmissions();
+      } catch (error) {
+        alert('Error processing action');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadSubmissions);
   </script>
 </body>
 </html>

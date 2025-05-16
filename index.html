@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Global Relations Timeline</title>
-  <link rel="stylesheet" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="styles.css">
+  <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+  <link rel="stylesheet" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
 </head>
 <body>
   <header>
@@ -15,7 +15,6 @@
       <a href="index.html">Home</a>
       <a href="about.html">About</a>
       <a href="contribute.html">Contribute</a>
-      <input type="text" id="search" placeholder="Search timeline...">
     </nav>
   </header>
 
@@ -61,15 +60,15 @@
       <option value="11">November</option>
       <option value="12">December</option>
     </select>
+    <input type="text" id="search" placeholder="Search events...">
   </section>
 
   <div id="timeline"></div>
 
   <footer>
-    <p>Data from UN, Wikipedia, and contributors. &copy; 2025</p>
+    <p>Data from UN, Wikipedia, and contributors. © 2025</p>
   </footer>
 
-  <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
   <script type="module" src="script.js"></script>
 </body>
 </html>

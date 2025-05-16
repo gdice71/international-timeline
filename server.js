@@ -11,8 +11,8 @@ app.use(express.static('.')); // Serve static files (HTML, CSS, JS)
 // Load decades config
 const decades = require('./decades-config.js').decades;
 
-// Submission storage
-const submissionsFile = 'submissions.json';
+// Submission storage in /tmp
+const submissionsFile = path.join('/tmp', 'submissions.json');
 
 // Initialize submissions file if it doesn't exist or is empty/malformed
 async function initializeSubmissions() {
@@ -135,14 +135,14 @@ app.post('/api/approve-event', async (req, res) => {
       return res.json({ message: 'Submission rejected' });
     }
 
-    // Approve: Add to the appropriate decade file
+    // Approve: Add to the appropriate decade file in /tmp
     const decade = `${Math.floor(submission.start_date.year / 10) * 10}s`;
     const decadeConfig = decades.find(d => d.decade === decade);
     if (!decadeConfig) {
       return res.status(400).json({ message: 'Invalid decade' });
     }
 
-    const filePath = path.join(__dirname, decadeConfig.file);
+    const filePath = path.join('/tmp', decadeConfig.file);
     let dataContent;
     try {
       dataContent = await fs.readFile(filePath, 'utf8');
@@ -150,14 +150,19 @@ app.post('/api/approve-event', async (req, res) => {
       dataContent = 'export const timelineData = { title: { text: { headline: "International Relations Timeline", text: "" } }, events: [] };';
     }
 
-    const dataModule = { timelineData: { events: [] } };
+    let events = [];
     try {
-      eval(`dataModule.timelineData = ${dataContent.match(/export const timelineData = (.*?);/)[1]}`);
+      // Write to a temporary file to import as a module
+      const tempFile = path.join('/tmp', `temp-${Date.now()}.js`);
+      await fs.writeFile(tempFile, dataContent);
+      const module = await import(tempFile);
+      events = module.timelineData.events || [];
+      await fs.unlink(tempFile); // Clean up
     } catch (e) {
-      console.error('Error parsing data file:', e);
-      dataModule.timelineData.events = [];
+      console.error('Error importing data file:', e);
+      events = [];
     }
-    const events = dataModule.timelineData.events || [];
+
     const newEvent = {
       text: submission.text,
       start_date: submission.start_date,
