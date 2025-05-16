@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Review Submissions</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Admin - Review Submissions</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contribute.html">Contribute</a>
+    </nav>
+  </header>
+
+  <section id="submissions">
+    <h2>Pending Submissions</h2>
+    <div id="submission-list"></div>
+  </section>
+
+  <footer>
+    <p>Data from UN, Wikipedia, and contributors. © 2025</p>
+  </footer>
+
+  <script>
+    async function loadSubmissions() {
+      try {
+        const response = await fetch('/api/submissions');
+        const submissions = await response.json();
+        const list = document.getElementById('submission-list');
+        list.innerHTML = '';
+
+        if (submissions.length === 0) {
+          list.innerHTML = '<p>No pending submissions.</p>';
+          return;
+        }
+
+        submissions.forEach(sub => {
+          const div = document.createElement('div');
+          div.style.border = '1px solid #ccc';
+          div.style.padding = '1rem';
+          div.style.margin = '0.5rem';
+          div.innerHTML = `
+            <h3>${sub.text.headline}</h3>
+            <p>${sub.text.text}</p>
+            <p><strong>Date:</strong> ${sub.start_date.year}-${sub.start_date.month}-${sub.start_date.day}</p>
+            <p><strong>Region:</strong> ${sub.group}</p>
+            <p><strong>Category:</strong> ${sub.category}</p>
+            ${sub.media ? `<p><strong>Image URL:</strong> <a href="${sub.media.url}" target="_blank">${sub.media.url}</a></p>` : ''}
+            <button onclick="handleSubmission('${sub.id}', 'approve')">Approve</button>
+            <button onclick="handleSubmission('${sub.id}', 'reject')">Reject</button>
+          `;
+          list.appendChild(div);
+        });
+      } catch (error) {
+        console.error('Error loading submissions:', error);
+        document.getElementById('submission-list').innerHTML = '<p>Error loading submissions.</p>';
+      }
+    }
+
+    async function handleSubmission(id, action) {
+      try {
+        const response = await fetch('/api/approve-event', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, action })
+        });
+        const result = await response.json();
+        alert(result.message);
+        loadSubmissions(); // Refresh the list
+      } catch (error) {
+        console.error('Error processing submission:', error);
+        alert('Error processing submission.');
+      }
+    }
+
+    document.addEventListener('DOMContentLoaded', loadSubmissions);
+  </script>
+</body>
+</html>

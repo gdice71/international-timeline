@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Global Relations Timeline</title>
+  <link rel="stylesheet" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Global Relations Timeline</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contribute.html">Contribute</a>
+      <input type="text" id="search" placeholder="Search timeline...">
+    </nav>
+  </header>
+
+  <section id="filters">
+    <select id="decade-filter">
+      <option value="all">All Decades</option>
+    </select>
+    <select id="region-filter">
+      <option value="">All Regions</option>
+      <option value="Europe">Europe</option>
+      <option value="Americas">Americas</option>
+      <option value="North America">North America</option>
+      <option value="Middle East">Middle East</option>
+      <option value="Asia">Asia</option>
+      <option value="Africa">Africa</option>
+      <option value="Global">Global</option>
+    </select>
+    <select id="category-filter">
+      <option value="">All Categories</option>
+      <option value="Treaty">Treaty</option>
+      <option value="Military Intervention">Military Intervention</option>
+      <option value="Conflict">Conflict</option>
+      <option value="Diplomacy">Diplomacy</option>
+      <option value="Terrorism">Terrorism</option>
+      <option value="Military Withdrawal">Military Withdrawal</option>
+      <option value="Peace Agreement">Peace Agreement</option>
+      <option value="Diplomatic Agreement">Diplomatic Agreement</option>
+      <option value="Environmental Treaty">Environmental Treaty</option>
+      <option value="Policy Declaration">Policy Declaration</option>
+    </select>
+    <select id="month-filter">
+      <option value="">All Months</option>
+      <option value="01">January</option>
+      <option value="02">February</option>
+      <option value="03">March</option>
+      <option value="04">April</option>
+      <option value="05">May</option>
+      <option value="06">June</option>
+      <option value="07">July</option>
+      <option value="08">August</option>
+      <option value="09">September</option>
+      <option value="10">October</option>
+      <option value="11">November</option>
+      <option value="12">December</option>
+    </select>
+  </section>
+
+  <div id="timeline"></div>
+
+  <footer>
+    <p>Data from UN, Wikipedia, and contributors. &copy; 2025</p>
+  </footer>
+
+  <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
+  <script type="module" src="script.js"></script>
+</body>
+</html>

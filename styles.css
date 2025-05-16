@@ -1,0 +1,236 @@
+body {
+  font-family: 'EB Garamond', serif;
+  margin: 0;
+  padding: 0;
+  background: #f4f4f4;
+  color: #333;
+}
+
+header {
+  background: #454557;
+  color: white;
+  padding: 1rem;
+  text-align: center;
+}
+
+header h1 {
+  font-family: 'EB Garamond', serif; 
+  margin: 0;
+  font-size: 2rem;
+}
+
+nav {
+  margin-top: 1rem;
+}
+
+nav a {
+  color: rgb(255, 255, 255);
+  margin: 0 1rem;
+  text-decoration: none;
+  font-weight: 700;
+}
+
+nav a:hover {
+  text-decoration: underline;
+}
+
+nav input {
+  padding: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  width: 200px;
+}
+
+#filters {
+  padding: 1rem;
+  text-align: center;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#filters select {
+  padding: 0.5rem;
+  margin: 0 0.5rem;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+#timeline {
+  height: 600px;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1rem;
+}
+
+footer {
+  text-align: center;
+  padding: 1rem;
+  background: #333;
+  color: white;
+  position: relative;
+  bottom: 0;
+  width: 100%;
+}
+
+/* Contribute form styling */
+#contribute-form {
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#contribute-form h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#contribute-form label {
+  display: block;
+  margin: 0.5rem 0 0.2rem;
+}
+
+#contribute-form input,
+#contribute-form textarea,
+#contribute-form select {
+  width: 100%;
+  padding: 0.5rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 1rem;
+}
+
+#contribute-form textarea {
+  resize: vertical;
+}
+
+#contribute-form button {
+  display: block;
+  width: 100%;
+  padding: 0.75rem;
+  background: #454557;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  cursor: pointer;
+  margin-top: 1rem;
+}
+
+#contribute-form button:hover {
+  background: #333;
+}
+
+#form-message {
+  text-align: center;
+  margin-top: 1rem;
+  color: #333;
+}
+
+/* Admin page styling */
+#submissions {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+#submissions h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#submission-list div {
+  margin-bottom: 1rem;
+}
+
+#submission-list button {
+  padding: 0.5rem 1rem;
+  margin: 0.5rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+#submission-list button:first-of-type {
+  background: #454557;
+  color: white;
+}
+
+#submission-list button:last-of-type {
+  background: #ccc;
+  color: #333;
+}
+
+#submission-list button:hover {
+  opacity: 0.9;
+}
+
+@media (max-width: 768px) {
+  #timeline {
+      height: 400px;
+  }
+
+  header h1 {
+      font-size: 1.5rem;
+  }
+
+  nav a {
+      margin: 0 0.5rem;
+      font-size: 0.9rem;
+  }
+
+  nav input {
+      width: 150px;
+  }
+
+  #filters select {
+      margin: 0.5rem;
+      width: 100%;
+      max-width: 200px;
+  }
+
+  #contribute-form {
+      margin: 1rem;
+      padding: 1rem;
+  }
+
+  #submissions {
+      margin: 1rem;
+      padding: 1rem;
+  }
+}
+
+/* Timeline navigation arrows styling */
+.tl-slidenav-next .tl-slidenav-content-container .tl-slidenav-icon,
+.tl-slidenav-previous .tl-slidenav-content-container .tl-slidenav-icon {
+  color: #333 !important; /* Dark gray color */
+  text-shadow: none !important;
+}
+
+/* Timeline slide titles and text */
+.tl-headline-date, .tl-headline, .tl-text {
+  color: #333 !important; /* Dark gray color for text */
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7) !important; /* White text shadow for better readability */
+}
+
+/* Remove or adjust the circular background */
+.tl-slidenav-next .tl-slidenav-content-container,
+.tl-slidenav-previous .tl-slidenav-content-container {
+  background-color: transparent !important; /* Remove background */
+  border-radius: 0 !important; /* Remove rounded corners */
+}
+
+/* Hover state for navigation */
+.tl-slidenav-next:hover .tl-slidenav-icon,
+.tl-slidenav-previous:hover .tl-slidenav-icon {
+  color: #000 !important; /* Darker on hover */
+}
+
+/* Force all text in timeline to dark */
+#timeline * {
+  color: #333 !important;
+}

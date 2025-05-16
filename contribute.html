@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contribute to Global Relations Timeline</title>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Contribute to Global Relations Timeline</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contribute.html">Contribute</a>
+      <input type="text" id="search" placeholder="Search timeline...">
+    </nav>
+  </header>
+
+  <section id="contribute-form">
+    <h2>Submit an Event</h2>
+    <form id="event-form" action="/api/submit-event" method="POST">
+      <label for="headline">Event Headline:</label>
+      <input type="text" id="headline" name="headline" required>
+
+      <label for="description">Description:</label>
+      <textarea id="description" name="description" rows="5" required></textarea>
+
+      <label for="date">Event Date (YYYY-MM-DD):</label>
+      <input type="date" id="date" name="date" required>
+
+      <label for="region">Region:</label>
+      <select id="region" name="region" required>
+        <option value="">Select Region</option>
+        <option value="Europe">Europe</option>
+        <option value="Americas">Americas</option>
+        <option value="North America">North America</option>
+        <option value="Middle East">Middle East</option>
+        <option value="Asia">Asia</option>
+        <option value="Africa">Africa</option>
+        <option value="Global">Global</option>
+      </select>
+
+      <label for="category">Category:</label>
+      <select id="category" name="category" required>
+        <option value="">Select Category</option>
+        <option value="Treaty">Treaty</option>
+        <option value="Military Intervention">Military Intervention</option>
+        <option value="Conflict">Conflict</option>
+        <option value="Diplomacy">Diplomacy</option>
+        <option value="Terrorism">Terrorism</option>
+        <option value="Military Withdrawal">Military Withdrawal</option>
+        <option value="Peace Agreement">Peace Agreement</option>
+        <option value="Diplomatic Agreement">Diplomatic Agreement</option>
+        <option value="Environmental Treaty">Environmental Treaty</option>
+        <option value="Policy Declaration">Policy Declaration</option>
+      </select>
+
+      <label for="imageUrl">Image URL (optional):</label>
+      <input type="url" id="imageUrl" name="imageUrl" placeholder="https://example.com/image.jpg">
+
+      <button type="submit">Submit Event</button>
+    </form>
+    <p id="form-message"></p>
+  </section>
+
+  <footer>
+    <p>Data from UN, Wikipedia, and contributors. © 2025</p>
+  </footer>
+
+  <script>
+    document.getElementById('event-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const form = e.target;
+      const formData = new FormData(form);
+      const data = Object.fromEntries(formData);
+
+      try {
+        const response = await fetch('/api/submit-event', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(data)
+        });
+        const result = await response.json();
+        document.getElementById('form-message').textContent = result.message;
+        if (response.ok) {
+          form.reset();
+        }
+      } catch (error) {
+        document.getElementById('form-message').textContent = 'Error submitting event. Please try again.';
+        console.error('Submission error:', error);
+      }
+    });
+  </script>
+</body>
+</html>
