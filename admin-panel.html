@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin - Review Submissions</title>
+  <link rel="stylesheet" href="styles.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap">
+</head>
+<body>
+  <header>
+    <h1>Admin - Review Submissions</h1>
+    <nav>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contribute.html">Contribute</a>
+    </nav>
+  </header>
+  <section id="submissions">
+    <h2>Pending Submissions</h2>
+    <div id="submission-list"></div>
+    <div id="submission-message"></div>
+  </section>
+  <footer>
+    <p>Data from UN, Wikipedia, and contributors. © 2025</p>
+  </footer>
+  <script>
+    async function loadSubmissions() {
+      const submissionList = document.getElementById('submission-list');
+      const messageDiv = document.getElementById('submission-message');
+      submissionList.innerHTML = '';
+      messageDiv.textContent = '';
+
+      try {
+        const response = await fetch('/api/submissions');
+        const submissions = await response.json();
+        if (!response.ok) {
+          messageDiv.textContent = submissions.message || 'Error loading submissions';
+          messageDiv.style.color = 'red';
+          return;
+        }
+
+        if (submissions.length === 0) {
+          submissionList.innerHTML = '<p>No pending submissions.</p>';
+          return;
+        }
+
+        submissions.forEach(submission => {
+          const div = document.createElement('div');
+          div.innerHTML = `
+            <p><strong>${submission.text.headline}</strong></p>
+            <p>${submission.text.text}</p>
+            <p>Date: ${submission.start_date.year}-${submission.start_date.month}-${submission.start_date.day}</p>
+            <p>Region: ${submission.group}</p>
+            <p>Category: ${submission.category}</p>
+            ${submission.media ? `<p>Image: <a href="${submission.media.url}" target="_blank">View</a></p>` : ''}
+            <button onclick="handleAction('${submission.id}', 'approve')">Approve</button>
+            <button onclick="handleAction('${submission.id}', 'reject')">Reject</button>
+          `;
+          submissionList.appendChild(div);
+        });
+      } catch (error) {
+        messageDiv.textContent = 'Server error';
+        messageDiv.style.color = 'red';
+      }
+    }
+
+    async function handleAction(id, action) {
+      const messageDiv = document.getElementById('submission-message');
+      try {
+        const response = await fetch('/api/approve-event', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, action })
+        });
+        const result = await response.json();
+        if (response.ok) {
+          messageDiv.textContent = result.message;
+          messageDiv.style.color = 'green';
+          loadSubmissions(); // Refresh list
+        } else {
+          messageDiv.textContent = result.message || 'Error processing action';
+          messageDiv.style.color = 'red';
+        }
+      } catch (error) {
+        messageDiv.textContent = 'Server error';
+        messageDiv.style.color = 'red';
+      }
+    }
+
+    // Load submissions on page load
+    loadSubmissions();
+  </script>
+</body>
+</html>

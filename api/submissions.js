@@ -1,6 +1,7 @@
 // /Users/gracedice/Desktop/IR/Project/api/submissions.js
-import fs from 'fs';
-import path from 'path';
+import { createClient } from '@supabase/supabase-js';
+
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_KEY);
 
 export default async function handler(req, res) {
     if (req.method !== 'GET') {
@@ -8,16 +9,11 @@ export default async function handler(req, res) {
     }
 
     try {
-        const submissionsFile = path.join(process.cwd(), 'submissions.json');
-        let submissions = [];
-        try {
-            const content = await fs.promises.readFile(submissionsFile, 'utf8');
-            submissions = JSON.parse(content);
-        } catch (error) {
-            console.error('Error parsing submissions.json:', error.message);
-            submissions = [];
-        }
-        return res.status(200).json(submissions);
+        const { data, error } = await supabase
+            .from('submissions')
+            .select('*');
+        if (error) throw error;
+        return res.status(200).json(data || []);
     } catch (error) {
         console.error('Error reading submissions:', error.message);
         return res.status(500).json({ message: 'Server error' });

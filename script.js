@@ -1,3 +1,4 @@
+// /Users/gracedice/Desktop/IR/Project/script.js
 import { decades } from './decades-config.js';
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -13,7 +14,7 @@ document.addEventListener('DOMContentLoaded', () => {
         height: 600,
         default_bg_color: '#f4f4f4',
         timenav_height: 150,
-        date_display: 'full' // Display full dates (e.g., "October 16, 1962") when month and day are available
+        date_display: 'full'
       });
     } catch (error) {
       console.error('TimelineJS failed to initialize:', error);
@@ -25,31 +26,13 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadDecadeData(decade) {
     let data;
     try {
-      if (decade === 'all') {
-        // Load all decades
-        const modules = await Promise.all(
-          decades.map(d => 
-            import(`./${d.file}`).catch(err => {
-              console.error(`Failed to load ${d.file}:`, err);
-              return { timelineData: { events: [] } }; // Fallback empty data
-            })
-          )
-        );
-        data = {
-          title: modules[0]?.timelineData?.title || { text: { headline: 'International Relations Timeline', text: '' } },
-          events: modules.flatMap(m => m.timelineData?.events || [])
-        };
-      } else {
-        const decadeConfig = decades.find(d => d.decade === decade);
-        if (!decadeConfig) {
-          throw new Error(`Decade ${decade} not found in config`);
-        }
-        const module = await import(`./${decadeConfig.file}`);
-        data = module.timelineData;
+      const response = await fetch(`/api/events?decade=${decade}`);
+      if (!response.ok) {
+        throw new Error('Error fetching events');
       }
+      data = await response.json();
     } catch (error) {
       console.error('Error loading decade data:', error);
-      // Fallback data to prevent timeline crash
       data = {
         title: { text: { headline: 'International Relations Timeline', text: 'Error loading events.' } },
         events: []
@@ -61,7 +44,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Filtering and Search
   const regionFilter = document.getElementById('region-filter');
   const categoryFilter = document.getElementById('category-filter');
-  const monthFilter = document.getElementById('month-filter'); // Added month filter
+  const monthFilter = document.getElementById('month-filter');
   const searchInput = document.getElementById('search');
 
   let currentData = null;
@@ -70,7 +53,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const decade = decadeFilter.value;
     const region = regionFilter.value;
     const category = categoryFilter.value;
-    const month = monthFilter ? monthFilter.value : ''; // Handle case where month filter is not in UI
+    const month = monthFilter ? monthFilter.value : '';
     const search = searchInput.value.toLowerCase();
 
     // Load data if decade changes or first load
@@ -104,7 +87,7 @@ document.addEventListener('DOMContentLoaded', () => {
   regionFilter.addEventListener('change', updateTimeline);
   categoryFilter.addEventListener('change', updateTimeline);
   if (monthFilter) {
-    monthFilter.addEventListener('change', updateTimeline); // Add listener for month filter
+    monthFilter.addEventListener('change', updateTimeline);
   }
   searchInput.addEventListener('input', updateTimeline);
 });
