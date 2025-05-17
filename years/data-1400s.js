@@ -1,3 +1,4 @@
+/*
 export const timelineData = {
   title: {
     text: {
@@ -7,3 +8,5 @@ export const timelineData = {
   },
   events: []
 };
+
+ */
