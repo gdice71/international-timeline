@@ -29,32 +29,64 @@
 
       <label for="date">Event Date (YYYY-MM-DD):</label>
       <input type="date" id="date" name="date" required>
-
+      
       <label for="region">Region:</label>
       <select id="region" required>
-        <option value="">Select Region</option>
-        <option value="Europe">Europe</option>
-        <option value="Americas">Americas</option>
+        <option value="">All Regions</option>
+        <option value="Global">Global</option>
         <option value="North America">North America</option>
+        <option value="South America">South America</option>
+        <option value="Europe">Europe</option>      
         <option value="Middle East">Middle East</option>
         <option value="Asia">Asia</option>
         <option value="Africa">Africa</option>
-        <option value="Global">Global</option>
+        <option value="Oceania">Oceania</option>
+        <option value="Arctic">Arctic</option>
+        <option value="Antarctic">Antarctic</option>
+        <option value="International Waters">International Waters</option>
       </select>
 
       <label for="category">Category:</label>
       <select id="category" required>
-        <option value="">Select Category</option>
-        <option value="Treaty">Treaty</option>
-        <option value="Military Intervention">Military Intervention</option>
-        <option value="Conflict">Conflict</option>
-        <option value="Diplomacy">Diplomacy</option>
-        <option value="Terrorism">Terrorism</option>
-        <option value="Military Withdrawal">Military Withdrawal</option>
-        <option value="Peace Agreement">Peace Agreement</option>
-        <option value="Diplomatic Agreement">Diplomatic Agreement</option>
-        <option value="Environmental Treaty">Environmental Treaty</option>
-        <option value="Policy Declaration">Policy Declaration</option>
+        <optgroup label="Conflict and Diplomacy">
+          <option value="Conflict">Conflict</option>
+          <option value="Diplomacy">Diplomacy</option>
+          <option value="Treaty">Treaty</option>
+          <option value="Peace Agreement">Peace Agreement</option>
+          <option value="Military Intervention">Military Intervention</option>
+          <option value="Military Withdrawal">Military Withdrawal</option>
+          <option value="Diplomatic Agreement">Diplomatic Agreement</option>
+        </optgroup>
+  
+        <optgroup label="Political and Policy">
+          <option value="Policy Declaration">Policy Declaration</option>
+          <option value="Sanctions">Sanctions</option>
+          <option value="Recognition">Recognition</option>
+          <option value="Political Protest">Political Protest</option>
+          <option value="Arms Control">Arms Control</option>
+          <option value="Regime Change">Regime Change</option>
+          <option value="Electoral Outcome">Electoral Outcome</option>
+        </optgroup>
+  
+        <optgroup label="Economic and Environmental">
+          <option value="Economic Sanction">Economic Sanction</option>
+          <option value="Economic Crisis">Economic Crisis</option>
+          <option value="Environmental Treaty">Environmental Treaty</option>
+          <option value="Resource Dispute">Resource Dispute</option>
+        </optgroup>
+  
+        <optgroup label="Humanitarian and Social">
+          <option value="Human Rights Violation">Human Rights Violation</option>
+          <option value="Humanitarian Crisis">Humanitarian Crisis</option>
+          <option value="Migration and Refugees">Migration and Refugees</option>
+        </optgroup>
+  
+        <optgroup label="Security and Terrorism">
+          <option value="Counterterrorism Operation">Counterterrorism Operation</option>
+          <option value="Terrorism">Terrorism</option>
+          <option value="Cyber Attack">Cyber Attack</option>
+          <option value="Security Alliance">Security Alliance</option>
+        </optgroup>
       </select>
 
       <label for="image-url">Image URL (optional):</label>
