@@ -20,7 +20,8 @@
       "dest": "/$1"
     }
   ],
-  "include": [
-    "years/**"
+  "ignore": [
+    "*.log",
+    "node_modules/**"
   ]
 }
