@@ -1,6 +1,7 @@
 {
   "version": 2,
-  "builds": [
+  "builds": 
+  [
     {
       "src": "server.js",
       "use": "@vercel/node"
@@ -10,7 +11,8 @@
       "use": "@vercel/static"
     }
   ],
-  "routes": [
+  "routes": 
+  [
     {
       "src": "/api/(.*)",
       "dest": "/server.js"
@@ -19,10 +21,5 @@
       "src": "/(.*)",
       "dest": "/$1"
     }
-  ],
-  "functions": {
-    "server.js": {
-      "includeFiles": ["years/**"]
-    }
-  }
+  ]
 }
