@@ -1,4 +1,4 @@
-import { decades } from './decades-config.js';
+import { decades } from './decades.js'; // Updated file name
 
 document.addEventListener('DOMContentLoaded', () => {
   // Populate decade dropdown

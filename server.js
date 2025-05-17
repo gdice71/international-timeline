@@ -1,15 +1,14 @@
-const express = require('express');
-const fs = require('fs').promises;
-const path = require('path');
+import express from 'express';
+import { promises as fs } from 'fs';
+import path from 'path';
+import { decades } from './decades.js'; // Updated file name and import syntax
+
 const app = express();
 const port = process.env.PORT || 3000;
 
 // Middleware
 app.use(express.json());
 app.use(express.static('.')); // Serve static files (HTML, CSS, JS)
-
-// Load decades config
-const decades = require('./decades-config.js').decades;
 
 // Submission storage in /tmp
 const submissionsFile = path.join('/tmp', 'submissions.json');
@@ -97,7 +96,7 @@ app.get('/api/submissions', async (req, res) => {
       const content = await fs.readFile(submissionsFile, 'utf8');
       submissions = JSON.parse(content);
     } catch (error) {
-      console.error('Error parsing submissions.json:', error.message);
+      console.error('Error reading submissions:', error.message);
       submissions = [];
     }
     res.json(submissions);
