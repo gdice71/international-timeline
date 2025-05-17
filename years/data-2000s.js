@@ -123,5 +123,5 @@ export const timelineData =
         url: 'https://www.cvce.eu/content/publication/2007/12/20/f8ace492-aa08-4dcf-9cb5-79dff98eaaac/publishable.jpg'
       }
     }
-  ]
+  ] 
 };
