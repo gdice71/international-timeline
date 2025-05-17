@@ -20,8 +20,9 @@
       "dest": "/$1"
     }
   ],
-  "ignore": [
-    "*.log",
-    "node_modules/**"
-  ]
+  "functions": {
+    "server.js": {
+      "includeFiles": ["years/**"]
+    }
+  }
 }
