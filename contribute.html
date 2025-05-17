@@ -3,18 +3,17 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contribute to Global Relations Timeline</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
-  <link rel="stylesheet" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
+  <title>Contribute - Global Relations Timeline</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
     <h1>Global Relations Timeline</h1>
     <nav>
-      <a href="index.html">Home</a>
-      <a href="about.html">About</a>
-      <a href="contribute.html">Contribute</a>
+      <a href="/index.html">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/contribute.html">Contribute</a>
     </nav>
   </header>
 
@@ -22,21 +21,21 @@
     <h2>Submit an Event</h2>
     <form id="event-form">
       <label for="headline">Event Headline:</label>
-      <input type="text" id="headline" required>
+      <input type="text" id="headline" name="headline" required>
 
       <label for="description">Description:</label>
-      <textarea id="description" required></textarea>
+      <textarea id="description" name="description" rows="5" required></textarea>
 
       <label for="date">Event Date (YYYY-MM-DD):</label>
       <input type="date" id="date" name="date" required>
-      
+
       <label for="region">Region:</label>
-      <select id="region" required>
-        <option value="">All Regions</option>
+      <select id="region" name="region" required>
+        <option value="">Select Region</option>
         <option value="Global">Global</option>
         <option value="North America">North America</option>
         <option value="South America">South America</option>
-        <option value="Europe">Europe</option>      
+        <option value="Europe">Europe</option>
         <option value="Middle East">Middle East</option>
         <option value="Asia">Asia</option>
         <option value="Africa">Africa</option>
@@ -47,50 +46,43 @@
       </select>
 
       <label for="category">Category:</label>
-      <select id="category" required>
-        <optgroup label="Conflict and Diplomacy">
-          <option value="Conflict">Conflict</option>
-          <option value="Diplomacy">Diplomacy</option>
-          <option value="Treaty">Treaty</option>
-          <option value="Peace Agreement">Peace Agreement</option>
-          <option value="Military Intervention">Military Intervention</option>
-          <option value="Military Withdrawal">Military Withdrawal</option>
-          <option value="Diplomatic Agreement">Diplomatic Agreement</option>
-        </optgroup>
-  
-        <optgroup label="Political and Policy">
-          <option value="Policy Declaration">Policy Declaration</option>
-          <option value="Sanctions">Sanctions</option>
-          <option value="Recognition">Recognition</option>
-          <option value="Political Protest">Political Protest</option>
-          <option value="Arms Control">Arms Control</option>
-          <option value="Regime Change">Regime Change</option>
-          <option value="Electoral Outcome">Electoral Outcome</option>
-        </optgroup>
-  
-        <optgroup label="Economic and Environmental">
-          <option value="Economic Sanction">Economic Sanction</option>
-          <option value="Economic Crisis">Economic Crisis</option>
-          <option value="Environmental Treaty">Environmental Treaty</option>
-          <option value="Resource Dispute">Resource Dispute</option>
-        </optgroup>
-  
-        <optgroup label="Humanitarian and Social">
-          <option value="Human Rights Violation">Human Rights Violation</option>
-          <option value="Humanitarian Crisis">Humanitarian Crisis</option>
-          <option value="Migration and Refugees">Migration and Refugees</option>
-        </optgroup>
-  
-        <optgroup label="Security and Terrorism">
-          <option value="Counterterrorism Operation">Counterterrorism Operation</option>
-          <option value="Terrorism">Terrorism</option>
-          <option value="Cyber Attack">Cyber Attack</option>
-          <option value="Security Alliance">Security Alliance</option>
-        </optgroup>
+      <select id="category" name="category" required>
+        <option value="">Select Category</option>
+        <option value="Conflict">Conflict</option>
+        <option value="Diplomacy">Diplomacy</option>
+        <option value="Treaty">Treaty</option>
+        <option value="Peace Agreement">Peace Agreement</option>
+        <option value="Military Intervention">Military Intervention</option>
+        <option value="Military Withdrawal">Military Withdrawal</option>
+        <option value="Diplomatic Agreement">Diplomatic Agreement</option>
+        <option value="Policy Declaration">Policy Declaration</option>
+        <option value="Sanctions">Sanctions</option>
+        <option value="Recognition">Recognition</option>
+        <option value="Political Protest">Political Protest</option>
+        <option value="Arms Control">Arms Control</option>
+        <option value="Regime Change">Regime Change</option>
+        <option value="Electoral Outcome">Electoral Outcome</option>
+        <option value="Economic Sanction">Economic Sanction</option>
+        <option value="Economic Crisis">Economic Crisis</option>
+        <option value="Environmental Treaty">Environmental Treaty</option>
+        <option value="Resource Dispute">Resource Dispute</option>
+        <option value="Human Rights Violation">Human Rights Violation</option>
+        <option value="Humanitarian Crisis">Humanitarian Crisis</option>
+        <option value="Migration and Refugees">Migration and Refugees</option>
+        <option value="Counterterrorism Operation">Counterterrorism Operation</option>
+        <option value="Terrorism">Terrorism</option>
+        <option value="Cyber Attack">Cyber Attack</option>
+        <option value="Security Alliance">Security Alliance</option>
       </select>
 
-      <label for="image-url">Image URL (optional):</label>
-      <input type="url" id="image-url">
+      <label for="imageUrl">Image URL (optional):</label>
+      <input type="url" id="imageUrl" name="imageUrl">
+
+      <label>Primary Sources (optional):</label>
+      <div id="sources-container">
+        <input type="url" name="primarySources" placeholder="Enter source URL">
+      </div>
+      <button type="button" id="add-source">Add Another Source</button>
 
       <button type="submit">Submit Event</button>
     </form>
@@ -104,28 +96,47 @@
   <script>
     document.getElementById('event-form').addEventListener('submit', async (e) => {
       e.preventDefault();
-      const formData = {
-        headline: document.getElementById('headline').value,
-        description: document.getElementById('description').value,
-        date: document.getElementById('date').value,
-        region: document.getElementById('region').value,
-        category: document.getElementById('category').value,
-        imageUrl: document.getElementById('image-url').value
+      const form = e.target;
+      const formData = new FormData(form);
+      const sources = Array.from(form.querySelectorAll('input[name="primarySources"]'))
+        .map(input => input.value)
+        .filter(value => value.trim() !== '');
+
+      const data = {
+        headline: formData.get('headline'),
+        description: formData.get('description'),
+        date: formData.get('date'),
+        region: formData.get('region'),
+        category: formData.get('category'),
+        imageUrl: formData.get('imageUrl') || '',
+        primarySources: sources
       };
+
       try {
         const response = await fetch('/api/submit-event', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(formData)
+          body: JSON.stringify(data)
         });
         const result = await response.json();
-        document.getElementById('form-message').textContent = result.message;
-        if (response.ok) {
-          document.getElementById('event-form').reset();
+        if (!response.ok) {
+          throw new Error(result.message);
         }
+        document.getElementById('form-message').textContent = result.message;
+        form.reset();
+        document.getElementById('sources-container').innerHTML = '<input type="url" name="primarySources" placeholder="Enter source URL">';
       } catch (error) {
-        document.getElementById('form-message').textContent = 'Error submitting event';
+        document.getElementById('form-message').textContent = error.message;
       }
+    });
+
+    document.getElementById('add-source').addEventListener('click', () => {
+      const container = document.getElementById('sources-container');
+      const input = document.createElement('input');
+      input.type = 'url';
+      input.name = 'primarySources';
+      input.placeholder = 'Enter source URL';
+      container.appendChild(input);
     });
   </script>
 </body>

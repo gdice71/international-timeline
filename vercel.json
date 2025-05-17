@@ -20,6 +20,10 @@
       "dest": "/server.js"
     },
     {
+      "src": "/event-details.html",
+      "dest": "/event-details.html"
+    },
+    {
       "src": "/(.*)",
       "dest": "/$1"
     }

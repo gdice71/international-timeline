@@ -9,6 +9,7 @@ export const timelineData =
         headline: 'Russo-Georgian War',
         text: "Conflict erupts between Russia and Georgia over the breakaway regions of South Ossetia and Abkhazia, leading to a brief war and subsequent Russian recognition of the regions' independence."
       },
+      id: "event-2000-005",
       start_date: {
         year: '2008',
         month: '08',
@@ -25,6 +26,7 @@ export const timelineData =
         headline: '9/11 Attacks',
         text: 'Terrorist attacks on the United States lead to the War on Terror and military intervention in Afghanistan.'
       },
+      id: "event-2000-001",
       start_date: {
         year: '2001',
         month: '09',
@@ -41,6 +43,7 @@ export const timelineData =
         headline: 'Iraq War Begins',
         text: 'The United States, along with coalition forces, invades Iraq to topple Saddam Hussein.'
       },
+      id: "event-2000-002",
       start_date: {
         year: '2003',
         month: '03',
@@ -57,6 +60,7 @@ export const timelineData =
         headline: 'EU Expansion',
         text: 'Ten new countries join the European Union, marking its largest single expansion.'
       },
+      id: "event-2000-003",
       start_date: {
         year: '2004',
         month: '05',
@@ -73,6 +77,7 @@ export const timelineData =
         headline: 'Kyoto Protocol Comes Into Force',
         text: 'An international treaty aimed at reducing greenhouse gas emissions becomes legally binding.'
       },
+      id: "event-2000-004",
       start_date: {
         year: '2005',
         month: '02',
@@ -89,6 +94,7 @@ export const timelineData =
         headline: 'Global Financial Crisis',
         text: 'Economic collapse begins with the bankruptcy of Lehman Brothers, triggering a global recession.'
       },
+      id: "event-2000-006",
       start_date: {
         year: '2008',
         month: '09',
@@ -105,6 +111,7 @@ export const timelineData =
         headline: 'Treaty of Lisbon Signed',
         text: 'Reforms the European Union to increase efficiency and streamline decision-making.'
       },
+      id: "event-2000-007",
       start_date: {
         year: '2007',
         month: '12',

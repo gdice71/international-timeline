@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Event Details - International Relations Timeline</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <header>
+    <h1>International Relations Timeline</h1>
+    <nav>
+      <a href="/index.html">Home</a>
+      <a href="/about.html">About</a>
+      <a href="/contribute.html">Contribute</a>
+    </nav>
+  </header>
+
+  <section id="event-details" style="max-width: 800px; margin: 2rem auto; padding: 1rem; background: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+    <h2 id="event-headline">Loading...</h2>
+    <p><strong>Date:</strong> <span id="event-date"></span></p>
+    <p><strong>Region:</strong> <span id="event-region"></span></p>
+    <p><strong>Category:</strong> <span id="event-category"></span></p>
+    <p><strong>Description:</strong> <span id="event-description"></span></p>
+    <div id="event-image" style="margin: 1rem 0;"></div>
+    <h3>Primary Sources</h3>
+    <ul id="event-sources"></ul>
+    <p id="error-message" style="color: red; display: none;"></p>
+  </section>
+
+  <footer>
+    <p>Data from UN, Wikipedia, and contributors. © 2025</p>
+  </footer>
+
+  <script>
+    async function loadEventDetails() {
+      const urlParams = new URLSearchParams(window.location.search);
+      const eventId = urlParams.get('id');
+      if (!eventId) {
+        showError('No event selected.');
+        return;
+      }
+
+      try {
+        const response = await fetch(`/api/event/${eventId}`);
+        if (!response.ok) {
+          throw new Error('Event not found');
+        }
+        const event = await response.json();
+
+        // Populate event details
+        document.getElementById('event-headline').textContent = event.text.headline;
+        document.getElementById('event-date').textContent = [
+          event.start_date.year,
+          event.start_date.month?.padStart(2, '0') || '',
+          event.start_date.day?.padStart(2, '0') || ''
+        ].filter(Boolean).join('-');
+        document.getElementById('event-region').textContent = event.group;
+        document.getElementById('event-category').textContent = event.category;
+        document.getElementById('event-description').textContent = event.text.text;
+
+        // Display image if available
+        if (event.media && event.media.url) {
+          const img = document.createElement('img');
+          img.src = event.media.url;
+          img.alt = event.text.headline;
+          img.style.maxWidth = '100%';
+          document.getElementById('event-image').appendChild(img);
+        }
+
+        // Populate primary sources
+        const sourcesList = document.getElementById('event-sources');
+        if (event.primarySources && event.primarySources.length > 0) {
+          event.primarySources.forEach(source => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = source;
+            a.textContent = source;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            li.appendChild(a);
+            sourcesList.appendChild(li);
+          });
+        } else {
+          sourcesList.innerHTML = '<li>No primary sources available.</li>';
+        }
+      } catch (error) {
+        console.error('Error loading event:', error);
+        showError('Unable to load event details. Please try again later.');
+      }
+    }
+
+    function showError(message) {
+      const errorMessage = document.getElementById('error-message');
+      errorMessage.textContent = message;
+      errorMessage.style.display = 'block';
+      document.getElementById('event-headline').textContent = 'Error';
+    }
+
+    document.addEventListener('DOMContentLoaded', loadEventDetails);
+  </script>
+</body>
+</html>
