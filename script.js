@@ -1,4 +1,4 @@
-import { decades } from './decades.js'; // Updated file name
+import { decades } from './decades.js';
 
 document.addEventListener('DOMContentLoaded', () => {
   // Populate decade dropdown
@@ -9,6 +9,13 @@ document.addEventListener('DOMContentLoaded', () => {
   // Initialize TimelineJS
   function renderTimeline(data) {
     try {
+      // Ensure there is at least one event to avoid TimelineJS error
+      if (!data.events || data.events.length === 0) {
+        data.events = [{
+          text: { headline: "No Events", text: "No events match the current filters." },
+          start_date: { year: "2025" }
+        }];
+      }
       new TL.Timeline('timeline', data, {
         height: 600,
         default_bg_color: '#f4f4f4',
@@ -22,30 +29,21 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // Load data for a specific decade
-  async function loadDecadeData(decade) {
+  function loadDecadeData(decade) {
     let data;
     try {
       if (decade === 'all') {
-        // Load all decades
-        const modules = await Promise.all(
-          decades.map(d => 
-            import(`./${d.file}`).catch(err => {
-              console.error(`Failed to load ${d.file}:`, err);
-              return { timelineData: { events: [] } }; // Fallback empty data
-            })
-          )
-        );
+        // Combine events from all decades
         data = {
-          title: modules[0]?.timelineData?.title || { text: { headline: 'International Relations Timeline', text: '' } },
-          events: modules.flatMap(m => m.timelineData?.events || [])
+          title: decades[0]?.data?.title || { text: { headline: 'International Relations Timeline', text: '' } },
+          events: decades.flatMap(d => d.data?.events || [])
         };
       } else {
         const decadeConfig = decades.find(d => d.decade === decade);
         if (!decadeConfig) {
           throw new Error(`Decade ${decade} not found in config`);
         }
-        const module = await import(`./${decadeConfig.file}`);
-        data = module.timelineData;
+        data = decadeConfig.data;
       }
     } catch (error) {
       console.error('Error loading decade data:', error);
@@ -61,7 +59,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // Filtering and Search
   const regionFilter = document.getElementById('region-filter');
   const categoryFilter = document.getElementById('category-filter');
-  const monthFilter = document.getElementById('month-filter'); // Added month filter
+  const monthFilter = document.getElementById('month-filter');
   const searchInput = document.getElementById('search');
 
   let currentData = null;
@@ -70,12 +68,12 @@ document.addEventListener('DOMContentLoaded', () => {
     const decade = decadeFilter.value;
     const region = regionFilter.value;
     const category = categoryFilter.value;
-    const month = monthFilter ? monthFilter.value : ''; // Handle case where month filter is not in UI
+    const month = monthFilter ? monthFilter.value : '';
     const search = searchInput.value.toLowerCase();
 
     // Load data if decade changes or first load
     if (!currentData || currentData.decade !== decade) {
-      currentData = { decade, data: await loadDecadeData(decade) };
+      currentData = { decade, data: loadDecadeData(decade) };
     }
 
     const filteredEvents = currentData.data.events.filter(event => {
@@ -90,7 +88,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const newData = {
       title: currentData.data.title,
-      events: filteredEvents.length ? filteredEvents : currentData.data.events
+      events: filteredEvents
     };
 
     renderTimeline(newData);
@@ -104,7 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
   regionFilter.addEventListener('change', updateTimeline);
   categoryFilter.addEventListener('change', updateTimeline);
   if (monthFilter) {
-    monthFilter.addEventListener('change', updateTimeline); // Add listener for month filter
+    monthFilter.addEventListener('change', updateTimeline);
   }
   searchInput.addEventListener('input', updateTimeline);
 });
