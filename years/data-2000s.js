@@ -53,7 +53,14 @@ export const timelineData =
       category: 'Conflict',
       media: {
         url: 'https://www.americanspecialops.com/images/force-recon/marines-hmmwvs.jpg'
-      }
+      },
+      primarySources: [
+        'https://www.govinfo.gov/content/pkg/WCPD-2003-03-24/pdf/WCPD-2003-03-24-Pg342.pdf',
+        'https://digitallibrary.un.org/record/478123',
+        'https://www.nsa.gov/Portals/70/documents/news-features/declassified-documents/iraq-war/2003_03_20_centcom_briefing.pdf',
+        'https://news.bbc.co.uk/2/hi/middle_east/2866755.stm',
+        'https://nsarchive2.gwu.edu/NSAEBB/NSAEBB418/docs/CPA%20Order%20No%201%20-%20De-Baathification%20of%20Iraqi%20Society.pdf'
+      ]
     },
     {
       text: {

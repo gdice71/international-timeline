@@ -18,6 +18,7 @@ export const timelineData = {
         headline: 'Fall of the Berlin Wall',
         text: 'Marked the end of the Cold War and German reunification. '
       },
+      id: "event-1980-001",
       group: 'Europe',
       category: 'Diplomacy'
     },
@@ -32,6 +33,7 @@ export const timelineData = {
         headline: '1980 Moscow Olympics',
         text: 'Boycotted by the United States and other countries in protest of the Soviet invasion of Afghanistan.'
       },
+      id: "event-1980-002",
       group: 'Europe',
       category: 'Political Protest'
     },
@@ -46,6 +48,7 @@ export const timelineData = {
         headline: 'Glasnost and Perestroika',
         text: 'Mikhail Gorbachev initiates reforms aimed at increasing openness and restructuring the Soviet political and economic system.'
       },
+      id: "event-1980-003",
       group: 'Europe',
       category: 'Policy Change'
     },
@@ -60,6 +63,7 @@ export const timelineData = {
         headline: 'Iran-Iraq War Begins',
         text: 'A prolonged military conflict between Iran and Iraq lasting eight years.'
       },
+      id: "event-1980-004",
       group: 'Middle East',
       category: 'War'
     },
@@ -74,6 +78,7 @@ export const timelineData = {
         headline: 'Falklands War',
         text: 'Conflict between Argentina and the United Kingdom over the Falkland Islands.'
       },
+      id: "event-1980-005",
       group: 'South America',
       category: 'War'
     },
@@ -88,6 +93,7 @@ export const timelineData = {
         headline: 'UN Resolution 598',
         text: 'Ends the Iran-Iraq War and establishes a ceasefire.'
       },
+      id: "event-1980-006",
       group: 'Middle East',
       category: 'Peace Agreement'
     },
@@ -102,6 +108,7 @@ export const timelineData = {
         headline: 'Missile Technology Control Regime Established',
         text: 'An informal political understanding among states to limit the proliferation of missiles and missile technology.'
       },
+      id: "event-1980-007",
       group: 'Global',
       category: 'Arms Control'
     },
@@ -116,6 +123,7 @@ export const timelineData = {
         headline: 'INF Treaty Signed',
         text: 'Treaty between the U.S. and Soviet Union to eliminate intermediate-range nuclear forces.'
       },
+      id: "event-1980-008",
       group: 'Europe',
       category: 'Arms Reduction'
     }

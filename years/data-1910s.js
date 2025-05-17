@@ -18,6 +18,7 @@ export const timelineData = {
           headline: 'Treaty of Versailles',
           text: 'Ended World War I, reshaping Europe and setting stage for WWII.'
         },
+        id: "event-1910-001",
         group: 'Europe',
         category: 'Treaty'
       }

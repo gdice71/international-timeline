@@ -18,6 +18,7 @@ export const timelineData = {
           headline: 'Camp David Accords',
           text: 'Egypt-Israel peace framework signed, mediated by the US. '
         },
+        id: "event-1970-001",
         group: 'Middle East',
         category: 'Treaty'
       }
