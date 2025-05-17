@@ -17,7 +17,7 @@ export const timelineData = {
         },
         text: {
           headline: 'Paris Climate Agreement',
-          text: 'Global pact to combat climate change. Region: Global, Category: Diplomacy'
+          text: 'Global pact to combat climate change.'
         },
         group: 'Global',
         category: 'Diplomacy'

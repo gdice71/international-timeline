@@ -16,13 +16,13 @@ export const timelineData = {
       },
       text: {
         headline: 'Fall of the Berlin Wall',
-        text: 'Marked the end of the Cold War and German reunification. Region: Europe, Category: Diplomacy'
+        text: 'Marked the end of the Cold War and German reunification. '
       },
       group: 'Europe',
       category: 'Diplomacy'
     },
     {
-      media: { url: 'https://upload.wikimedia.org/wikipedia/commons/2/21/Moscow_Olympics_1980.jpg' },
+      media: { url: 'https://media-cldnry.s-nbcnews.com/image/upload/newscms/2014_06/172631/x_30_nn_brianweb_140207.jpg' },
       start_date: {
           year: '1980',
           month: '7',
@@ -36,7 +36,7 @@ export const timelineData = {
       category: 'Political Protest'
     },
     {
-      media: { url: 'https://upload.wikimedia.org/wikipedia/commons/d/d7/Glasnost_1985.png' },
+      media: { url: 'https://cdn.britannica.com/24/137024-050-72B6814F/Mikhail-Gorbachev-speech-congress-Socialist-Unity-Party-1986.jpg' },
       start_date: {
           year: '1985',
           month: '3',
@@ -50,7 +50,7 @@ export const timelineData = {
       category: 'Policy Change'
     },
     {
-      media: { url: 'https://upload.wikimedia.org/wikipedia/commons/7/7a/Iran-Iraq_War_Map.png' },
+      media: { url: 'https://cdn.britannica.com/59/196359-050-2CDDC13A/forces-Iraqi-rocket-launchers-outskirts-Khorramshahr-Iran-October-1980.jpg' },
       start_date: {
           year: '1980',
           month: '9',
@@ -64,7 +64,7 @@ export const timelineData = {
       category: 'War'
     },
     {
-      media: { url: 'https://upload.wikimedia.org/wikipedia/commons/a/a1/Falklands_Malvinas.jpg' },
+      media: { url: 'https://www.thoughtco.com/thmb/GBbBq029y-fvkScofhlxUFYdtoE=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/British-troops-during-the-Falklands-War-58efa48e3df78cd3fc83b5b9.jpg' },
       start_date: {
           year: '1982',
           month: '4',
@@ -78,7 +78,7 @@ export const timelineData = {
       category: 'War'
     },
     {
-      media: { url: 'https://upload.wikimedia.org/wikipedia/commons/8/85/UN_Resolution_598.jpg' },
+      media: { url: 'https://cdn1.iranpress.com//uploads/image/2/original/2021/07/18/637622234479039228.jpg' },
       start_date: {
           year: '1988',
           month: '8',
@@ -92,7 +92,7 @@ export const timelineData = {
       category: 'Peace Agreement'
     },
     {
-      media: { url: 'https://upload.wikimedia.org/wikipedia/commons/e/e7/MTCR_logo.png' },
+      media: { url: 'https://scontent.fykz1-1.fna.fbcdn.net/v/t39.30808-6/465795736_9347779178583568_5492017969536331445_n.jpg?_nc_cat=106&ccb=1-7&_nc_sid=0b6b33&_nc_ohc=brJpPdZJZo8Q7kNvwEq4fro&_nc_oc=AdmFHmdhc_ahzXtcn1jDC_olmZ8SpxGcdSqj5A62Gq7zm9_SVdPYnr-a-gqQwWc0O41bZu6QwZ8sr7rdM9IvjHxJ&_nc_zt=23&_nc_ht=scontent.fykz1-1.fna&_nc_gid=21GBvlp_QIiUA0_CN1vqJg&oh=00_AfI6PvFkAmbowBZ2qyXuylBSgHHKH6_nJpE65hqQ3AaS6Q&oe=682E9063' },
       start_date: {
           year: '1987',
           month: '4',
@@ -106,7 +106,7 @@ export const timelineData = {
       category: 'Arms Control'
     },
     {
-      media: { url: 'https://upload.wikimedia.org/wikipedia/commons/f/f4/Reagan_Gorbachev_1987.jpg' },
+      media: { url: 'https://upload.wikimedia.org/wikipedia/commons/8/8d/Reagan_and_Gorbachev_signing.jpg' },
       start_date: {
           year: '1987',
           month: '12',

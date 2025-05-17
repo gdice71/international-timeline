@@ -33,7 +33,7 @@ export const timelineData = {
         },
         text: {
           headline: 'Six-Day War',
-          text: 'Israel fought Egypt, Jordan, and Syria, reshaping Middle East borders. Region: Middle East, Category: Conflict'
+          text: 'Israel fought Egypt, Jordan, and Syria, reshaping Middle East borders.'
         },
         group: 'Middle East',
         category: 'Conflict'

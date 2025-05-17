@@ -16,7 +16,7 @@ export const timelineData = {
         },
         text: {
           headline: 'Formation of the United Nations',
-          text: 'Established post-WWII to promote global cooperation. Region: Global, Category: Diplomacy'
+          text: 'Established post-WWII to promote global cooperation.'
         },
         group: 'Global',
         category: 'Diplomacy'
@@ -31,7 +31,7 @@ export const timelineData = {
         },
         text: {
           headline: 'Yalta Conference',
-          text: 'Allied leaders planned post-WWII Europe and UN formation. Region: Europe, Category: Diplomacy'
+          text: 'Allied leaders planned post-WWII Europe and UN formation.'
         },
         group: 'Europe',
         category: 'Diplomacy'
@@ -46,7 +46,7 @@ export const timelineData = {
         },
         text: {
           headline: 'NATO Formation',
-          text: 'North Atlantic Treaty Organization formed for collective defense. Region: Global, Category: Diplomacy'
+          text: 'North Atlantic Treaty Organization formed for collective defense.'
         },
         group: 'Global',
         category: 'Diplomacy'

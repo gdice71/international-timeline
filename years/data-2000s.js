@@ -33,7 +33,7 @@ export const timelineData =
       group: 'North America',
       category: 'Terrorism',
       media: {
-        url: 'https://upload.wikimedia.org/wikipedia/commons/1/1b/WTC_fire.jpg'
+        url: 'https://cdn.britannica.com/15/152315-050-226AA671/twin-towers-skyline-Lower-Manhattan-World-Trade-center.jpg'
       }
     },
     {
@@ -49,7 +49,7 @@ export const timelineData =
       group: 'Middle East',
       category: 'Conflict',
       media: {
-        url: 'https://upload.wikimedia.org/wikipedia/commons/e/ea/Iraq_War_2003.jpg'
+        url: 'https://www.americanspecialops.com/images/force-recon/marines-hmmwvs.jpg'
       }
     },
     {
@@ -65,7 +65,7 @@ export const timelineData =
       group: 'Europe',
       category: 'Integration',
       media: {
-        url: 'https://upload.wikimedia.org/wikipedia/commons/4/4c/EU_Expansion_2004.png'
+        url: 'https://eu.bilgi.edu.tr/media/blogs/10/2.png'
       }
     },
     {
@@ -81,7 +81,7 @@ export const timelineData =
       group: 'Global',
       category: 'Environmental Treaty',
       media: {
-        url: 'https://upload.wikimedia.org/wikipedia/commons/a/a4/Kyoto_Protocol_logo.png'
+        url: 'https://cdn.britannica.com/35/91935-050-C178046B/Vice-Pres-speech-Al-Gore-conference-Kyoto-December-1997.jpg'
       }
     },
     {
@@ -97,7 +97,7 @@ export const timelineData =
       group: 'Global',
       category: 'Economic Crisis',
       media: {
-        url: 'https://upload.wikimedia.org/wikipedia/commons/c/cd/Lehman_Brothers_Times_Square_by_David_Shankbone.jpg'
+        url: 'https://media.licdn.com/dms/image/v2/C5112AQHIkkozwMyyow/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1568657254235?e=2147483647&v=beta&t=lne47nKRFXrMHFdy8Psv7VnBbdpcTdiE2MVQRJC0udA'
       }
     },
     {
@@ -113,7 +113,7 @@ export const timelineData =
       group: 'Europe',
       category: 'Treaty',
       media: {
-        url: 'https://upload.wikimedia.org/wikipedia/commons/3/3e/Lisbon_Treaty.png'
+        url: 'https://www.cvce.eu/content/publication/2007/12/20/f8ace492-aa08-4dcf-9cb5-79dff98eaaac/publishable.jpg'
       }
     }
   ]
