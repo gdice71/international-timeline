@@ -6,6 +6,15 @@
   <title>Event Details - International Relations Timeline</title>
   <link rel="stylesheet" href="/styles.css">
   <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <style>
+    .event-container { max-width: 800px; margin: 2rem auto; padding: 1rem; background: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1); }
+    .header { border-bottom: 2px solid #ccc; padding-bottom: 1rem; }
+    .summary, .detailed-description, .impact-analysis, .multimedia, .primary-documents, .related-events, .comments { margin: 1rem 0; }
+    .comments form { display: flex; flex-direction: column; gap: 0.5rem; }
+    .comments textarea { width: 100%; height: 100px; }
+    .related-events a { margin-right: 1rem; }
+    .multimedia img { max-width: 100%; height: auto; }
+  </style>
 </head>
 <body>
   <header>
@@ -17,16 +26,62 @@
     </nav>
   </header>
 
-  <section id="event-details" style="max-width: 800px; margin: 2rem auto; padding: 1rem; background: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
-    <h2 id="event-headline">Loading...</h2>
-    <p><strong>Date:</strong> <span id="event-date"></span></p>
-    <p><strong>Region:</strong> <span id="event-region"></span></p>
-    <p><strong>Category:</strong> <span id="event-category"></span></p>
-    <p><strong>Description:</strong> <span id="event-description"></span></p>
-    <div id="event-image" style="margin: 1rem 0;"></div>
-    <h3>Primary Sources</h3>
-    <ul id="event-sources"></ul>
-    <p id="error-message" style="color: red; display: none;"></p>
+  <section class="event-container">
+    <div class="header">
+      <h2 id="event-headline">Loading...</h2>
+      <p><strong>Date:</strong> <span id="event-date"></span></p>
+      <p><strong>Region:</strong> <span id="event-region"></span></p>
+      <p><strong>Conflict/Theme:</strong> <span id="event-category"></span></p>
+    </div>
+
+    <div class="summary">
+      <h3>Summary</h3>
+      <p id="event-summary">Loading...</p>
+      <p><strong>Key Players:</strong> <span id="event-key-players">Loading...</span></p>
+    </div>
+
+    <div class="detailed-description">
+      <h3>Detailed Description</h3>
+      <p><strong>Context:</strong> <span id="event-context">Loading...</span></p>
+      <p><strong>Key Outcomes:</strong> <span id="event-outcomes">Loading...</span></p>
+      <p><strong>Reactions:</strong> <span id="event-reactions">Loading...</span></p>
+    </div>
+
+    <div class="impact-analysis">
+      <h3>Impact Analysis</h3>
+      <p><strong>Short-term Effects:</strong> <span id="event-short-effects">Loading...</span></p>
+      <p><strong>Long-term Significance:</strong> <span id="event-long-significance">Loading...</span></p>
+    </div>
+
+    <div class="multimedia">
+      <h3>Multimedia</h3>
+      <div id="event-image"></div>
+      <div id="event-infographic"></div>
+    </div>
+
+    <div class="primary-documents">
+      <h3>Primary Documents</h3>
+      <ul id="event-sources"></ul>
+    </div>
+
+    <div class="sources-references">
+      <h3>Sources and References</h3>
+      <ul id="event-references"></ul>
+    </div>
+
+    <div class="related-events">
+      <h3>Related Events</h3>
+      <div id="event-related"></div>
+    </div>
+
+    <div class="comments">
+      <h3>Discussion or Comments</h3>
+      <ul id="event-comments"></ul>
+      <form id="comment-form">
+        <textarea id="comment-input" placeholder="Add your insight or question..."></textarea>
+        <button type="submit">Submit</button>
+      </form>
+    </div>
   </section>
 
   <footer>
@@ -49,7 +104,7 @@
         }
         const event = await response.json();
 
-        // Populate event details
+        // Header
         document.getElementById('event-headline').textContent = event.text.headline;
         document.getElementById('event-date').textContent = [
           event.start_date.year,
@@ -58,9 +113,21 @@
         ].filter(Boolean).join('-');
         document.getElementById('event-region').textContent = event.group;
         document.getElementById('event-category').textContent = event.category;
-        document.getElementById('event-description').textContent = event.text.text;
 
-        // Display image if available
+        // Summary
+        document.getElementById('event-summary').textContent = event.summary || 'No summary available.';
+        document.getElementById('event-key-players').textContent = event.keyPlayers || 'No key players listed.';
+
+        // Detailed Description
+        document.getElementById('event-context').textContent = event.context || 'No context available.';
+        document.getElementById('event-outcomes').textContent = event.outcomes || 'No outcomes listed.';
+        document.getElementById('event-reactions').textContent = event.reactions || 'No reactions available.';
+
+        // Impact Analysis
+        document.getElementById('event-short-effects').textContent = event.shortEffects || 'No short-term effects listed.';
+        document.getElementById('event-long-significance').textContent = event.longSignificance || 'No long-term significance listed.';
+
+        // Multimedia
         if (event.media && event.media.url) {
           const img = document.createElement('img');
           img.src = event.media.url;
@@ -68,8 +135,33 @@
           img.style.maxWidth = '100%';
           document.getElementById('event-image').appendChild(img);
         }
+        // Placeholder for infographic (e.g., chart)
+        if (event.impactData) {
+          const chartDiv = document.createElement('div');
+          chartDiv.id = 'impact-chart';
+          document.getElementById('event-infographic').appendChild(chartDiv);
+          // Chart example (replace with actual data)
+          const chartCode = `
+            {
+              "type": "bar",
+              "data": {
+                "labels": ["Short-term", "Long-term"],
+                "datasets": [{
+                  "label": "Impact",
+                  "data": [${event.impactData.short || 0}, ${event.impactData.long || 0}],
+                  "backgroundColor": ["#4a90e2", "#50e3c2"]
+                }]
+              },
+              "options": {
+                "scales": { "y": { "beginAtZero": true } },
+                "plugins": { "legend": { "position": "top" } }
+              }
+            }
+          `;
+          chartDiv.innerHTML = `<xai-canvas type="chartjs">${chartCode}</xai-canvas>`;
+        }
 
-        // Populate primary sources
+        // Primary Documents
         const sourcesList = document.getElementById('event-sources');
         if (event.primarySources && event.primarySources.length > 0) {
           event.primarySources.forEach(source => {
@@ -85,11 +177,85 @@
         } else {
           sourcesList.innerHTML = '<li>No primary sources available.</li>';
         }
+
+        // Sources and References
+        const referencesList = document.getElementById('event-references');
+        if (event.references && event.references.length > 0) {
+          event.references.forEach(ref => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            a.href = ref.url || '#';
+            a.textContent = ref.title || ref;
+            a.target = '_blank';
+            a.rel = 'noopener noreferrer';
+            li.appendChild(a);
+            referencesList.appendChild(li);
+          });
+        } else {
+          referencesList.innerHTML = '<li>No additional references available.</li>';
+        }
+
+        // Related Events (placeholder logic)
+        const relatedEventsDiv = document.getElementById('event-related');
+        const related = [
+          { id: 'event-1910-001', title: 'World War I Begins', url: '/event-details.html?id=event-1910-001' },
+          { id: 'event-2000-001', title: 'Gulf War', url: '/event-details.html?id=event-2000-001' }
+        ].filter(e => e.id !== eventId); // Avoid self-reference
+        related.forEach(event => {
+          const a = document.createElement('a');
+          a.href = event.url;
+          a.textContent = event.title;
+          relatedEventsDiv.appendChild(a);
+        });
+
+        // Comments
+        loadComments(eventId);
+
       } catch (error) {
         console.error('Error loading event:', error);
         showError('Unable to load event details. Please try again later.');
       }
     }
+
+    async function loadComments(eventId) {
+      try {
+        const response = await fetch(`/api/comments?eventId=${eventId}`);
+        if (!response.ok) throw new Error('Failed to load comments');
+        const comments = await response.json();
+        const commentsList = document.getElementById('event-comments');
+        commentsList.innerHTML = comments.map(c => `<li>${c.text} - ${c.author || 'Anonymous'}, ${new Date(c.date).toLocaleDateString()}</li>`).join('');
+      } catch (error) {
+        console.error('Error loading comments:', error);
+        document.getElementById('event-comments').innerHTML = '<li>Error loading comments.</li>';
+      }
+    }
+
+    document.getElementById('comment-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const commentText = document.getElementById('comment-input').value;
+      if (!commentText) return;
+
+      const comment = {
+        eventId: new URLSearchParams(window.location.search).get('id'),
+        text: commentText,
+        author: 'Anonymous', // Add user authentication later if desired
+        date: new Date().toISOString()
+      };
+
+      try {
+        const response = await fetch('/api/comments', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(comment)
+        });
+        if (response.ok) {
+          document.getElementById('comment-input').value = '';
+          loadComments(comment.eventId);
+        }
+      } catch (error) {
+        console.error('Error submitting comment:', error);
+      }
+    });
 
     function showError(message) {
       const errorMessage = document.getElementById('error-message');
@@ -100,6 +266,7 @@
 
     document.addEventListener('DOMContentLoaded', loadEventDetails);
   </script>
+  <!-- Vercel Analytics -->
   <script defer src="https://va.vercel-scripts.com/v1/script.js" data-site-id="prj_M12fFfYYVT0kGlDLlaVGAAHUmpPo"></script>
 </body>
 </html>
