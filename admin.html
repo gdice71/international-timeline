@@ -3,19 +3,18 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Global Relations Timeline - Admin Panel</title>
-  <link rel="stylesheet" href="styles.css">
-  <script src="https://cdn.knightlab.com/libs/timeline3/latest/js/timeline.js"></script>
-  <link rel="stylesheet" href="https://cdn.knightlab.com/libs/timeline3/latest/css/timeline.css">
+  <title>Global Relations Timeline - Admin</title>
+  <link rel="stylesheet" href="/styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
-    <h1>Global Relations Timeline - Admin</h1>
+    <h1>Global Relations Timeline</h1>
     <nav>
-      <a href="index.html">View Timeline</a>
-      <a href="about.html">About</a>
-      <a href="contribute.html">Contribute</a>
-      <a href="admin.html">Admin</a>
+      <a href="/index.html">View Timeline</a>
+      <a href="/about.html">About</a>
+      <a href="/contribute.html">Contribute</a>
+      <a href="/admin.html">Admin</a>
     </nav>
   </header>
 
@@ -34,21 +33,36 @@
         const response = await fetch('/api/submissions');
         const submissions = await response.json();
         const list = document.getElementById('submission-list');
-        list.innerHTML = submissions.map(s => `
-          <div>
-            <p><strong>${s.text.headline}</strong> (${s.start_date.year}-${s.start_date.month}-${s.start_date.day}, ${s.group}, ${s.category})</p>
-            <p>${s.text.text}</p>
-            ${s.media ? `<p>Image: <a href="${s.media.url}" target="_blank">${s.media.url}</a></p>` : ''}
-            <button onclick="handleAction('${s.id}', 'approve')">Approve</button>
-            <button onclick="handleAction('${s.id}', 'reject')">Reject</button>
-          </div>
-        `).join('');
+        list.innerHTML = '';
+
+        if (submissions.length === 0) {
+          list.innerHTML = '<p>No pending submissions.</p>';
+          return;
+        }
+
+        submissions.forEach(sub => {
+          const div = document.createElement('div');
+          div.innerHTML = `
+            <h3>${sub.text.headline}</h3>
+            <p><strong>Date:</strong> ${sub.start_date.year}-${sub.start_date.month || ''}-${sub.start_date.day || ''}</p>
+            <p><strong>Region:</strong> ${sub.group}</p>
+            <p><strong>Category:</strong> ${sub.category}</p>
+            <p><strong>Description:</strong> ${sub.text.text}</p>
+            <p><strong>Summary:</strong> ${sub.summary || 'No summary provided'}</p>
+            <p><strong>Sources:</strong> ${sub.primarySources?.length > 0 ? sub.primarySources.join(', ') : 'None'}</p>
+            ${sub.media ? `<p><strong>Image:</strong> <a href="${sub.media.url}" target="_blank">${sub.media.url}</a></p>` : ''}
+            <button onclick="handleSubmission('${sub.id}', 'approve')">Approve</button>
+            <button onclick="handleSubmission('${sub.id}', 'reject')">Reject</button>
+          `;
+          list.appendChild(div);
+        });
       } catch (error) {
-        document.getElementById('submission-list').innerHTML = '<p>Error loading submissions</p>';
+        console.error('Error loading submissions:', error);
+        document.getElementById('submission-list').innerHTML = '<p>Error loading submissions.</p>';
       }
     }
 
-    async function handleAction(id, action) {
+    async function handleSubmission(id, action) {
       try {
         const response = await fetch('/api/approve-event', {
           method: 'POST',
@@ -59,7 +73,8 @@
         alert(result.message);
         loadSubmissions();
       } catch (error) {
-        alert('Error processing action');
+        console.error('Error processing submission:', error);
+        alert('Error processing submission.');
       }
     }
 

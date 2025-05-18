@@ -39,28 +39,17 @@ export const timelineData =
       }
     },
     {
-      text: {
-        headline: 'Iraq War Begins',
-        text: 'The United States, along with coalition forces, invades Iraq to topple Saddam Hussein.'
-      },
-      id: "event-2000-002",
-      start_date: {
-        year: '2003',
-        month: '03',
-        day: '20'
-      },
-      group: 'Middle East',
-      category: 'Conflict',
-      media: {
-        url: 'https://www.americanspecialops.com/images/force-recon/marines-hmmwvs.jpg'
-      },
+      id: "2003-001",
+      text: { headline: "Iraq War Begins", 
+      text: "The U.S.-led coalition invaded Iraq to depose Saddam Hussein, citing weapons of mass destruction and terrorism links." },
+      start_date: { year: "2003", month: "03", day: "20" },
+      group: "Middle East",
+      category: "Conflict",
       primarySources: [
-        'https://www.govinfo.gov/content/pkg/WCPD-2003-03-24/pdf/WCPD-2003-03-24-Pg342.pdf',
-        'https://digitallibrary.un.org/record/478123',
-        'https://www.nsa.gov/Portals/70/documents/news-features/declassified-documents/iraq-war/2003_03_20_centcom_briefing.pdf',
-        'https://news.bbc.co.uk/2/hi/middle_east/2866755.stm',
-        'https://nsarchive2.gwu.edu/NSAEBB/NSAEBB418/docs/CPA%20Order%20No%201%20-%20De-Baathification%20of%20Iraqi%20Society.pdf'
-      ]
+        "https://www.archives.gov/files/presidential-libraries/president-bush-addresses-nation-2003.pdf",
+        "https://www.un.org/Depts/unmovic/documents/1441.pdf"
+      ],
+      summary: "On March 20, 2003, the U.S., alongside coalition forces from the UK, Australia, and others, launched Operation Iraqi Freedom to overthrow Saddam Hussein’s regime. The invasion was preceded by months of diplomatic tension, including UN inspections for weapons of mass destruction (WMDs) and Colin Powell’s February 2003 UN presentation. The rapid military campaign captured Baghdad by April 9, but the absence of WMDs and ensuing insurgency sparked global controversy."
     },
     {
       text: {

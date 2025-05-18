@@ -26,6 +26,9 @@
       <label for="description">Description:</label>
       <textarea id="description" name="description" rows="5" required></textarea>
 
+      <label for="summary">Detailed Summary (optional):</label>
+      <textarea id="summary" name="summary" rows="8"></textarea>
+
       <label for="date">Event Date (YYYY-MM-DD):</label>
       <input type="date" id="date" name="date" required>
 
@@ -105,6 +108,7 @@
       const data = {
         headline: formData.get('headline'),
         description: formData.get('description'),
+        summary: formData.get('summary') || '',
         date: formData.get('date'),
         region: formData.get('region'),
         category: formData.get('category'),
@@ -139,6 +143,5 @@
       container.appendChild(input);
     });
   </script>
-  <script defer src="https://va.vercel-scripts.com/v1/script.js" data-site-id="prj_M12fFfYYVT0kGlDLlaVGAAHUmpPo"></script>
 </body>
 </html>
