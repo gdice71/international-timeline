@@ -16,12 +16,27 @@ document.addEventListener('DOMContentLoaded', () => {
           start_date: { year: "2025" }
         }];
       }
-      new TL.Timeline('timeline', data, {
+      const timeline = new TL.Timeline('timeline', data, {
         height: 600,
         default_bg_color: '#f4f4f4',
         timenav_height: 150,
-        date_display: 'full' // Display full dates (e.g., "October 16, 1962") when month and day are available
+        date_display: 'full'
       });
+
+      // Attach click listeners to slides
+      setTimeout(() => {
+        const slides = document.querySelectorAll('.tl-slide');
+        slides.forEach(slide => {
+          const headline = slide.querySelector('.tl-headline')?.textContent;
+          const event = data.events.find(e => e.text.headline === headline);
+          if (event && event.id) {
+            slide.style.cursor = 'pointer';
+            slide.addEventListener('click', () => {
+              window.location.href = `/event-details.html?id=${event.id}`;
+            });
+          }
+        });
+      }, 1000); // Delay to ensure slides are rendered
     } catch (error) {
       console.error('TimelineJS failed to initialize:', error);
       document.getElementById('timeline').innerHTML = '<p>Error loading timeline. Please try again.</p>';
