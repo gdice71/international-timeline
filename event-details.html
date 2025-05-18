@@ -5,45 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Event Details - International Relations Timeline</title>
   <link rel="stylesheet" href="/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&family=Open+Sans:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    .event-container { max-width: 1200px; margin: 2rem auto; padding: 1rem; background: #fff; box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1); }
-    .header { text-align: center; padding: 1rem 0; background: linear-gradient(90deg, #e3f2fd, #bbdefb); }
-    .header h2 { font-family: 'EB Garamond', serif; font-size: 2.5rem; margin: 0; }
-    .metadata { display: flex; justify-content: center; gap: 1rem; margin-top: 0.5rem; }
-    .metadata span { background: #1976d2; color: white; padding: 0.3rem 0.8rem; border-radius: 15px; font-size: 0.9rem; }
-
-    .hero { position: relative; height: 300px; background: #f4f4f4; margin-bottom: 2rem; }
-    .hero img { width: 100%; height: 100%; object-fit: cover; opacity: 0.7; }
-    .hero .summary { position: absolute; bottom: 1rem; left: 1rem; right: 1rem; color: white; background: rgba(0, 0, 0, 0.5); padding: 1rem; border-radius: 5px; font-family: 'Open Sans', sans-serif; }
-
-    .content { display: flex; gap: 2rem; margin-bottom: 2rem; }
-    .main-content { flex: 2; }
-    .sidebar { flex: 1; background: #f9f9f9; padding: 1rem; border-radius: 5px; }
-    .sidebar h4 { margin-top: 0; font-family: 'EB Garamond', serif; }
-    .sidebar ul { padding-left: 1rem; }
-    .impact-snapshot { margin: 1rem 0; }
-
-    .multimedia { margin-bottom: 2rem; }
-    .gallery { display: flex; overflow-x: auto; gap: 1rem; padding: 1rem 0; }
-    .gallery img { max-height: 150px; object-fit: cover; border-radius: 5px; }
-
-    .sources-references { margin-bottom: 2rem; }
-    .sources-references ul a { color: #1976d2; text-decoration: none; }
-    .sources-references ul a:hover { text-decoration: underline; }
-
-    .related-events { margin-bottom: 2rem; }
-    .event-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
-    .event-card { background: #e3f2fd; padding: 1rem; border-radius: 5px; text-align: center; }
-    .event-card a { color: #1976d2; text-decoration: none; font-weight: 600; }
-    .event-card:hover { background: #bbdefb; }
-
-    @media (max-width: 768px) {
-      .content { flex-direction: column; }
-      .hero { height: 200px; }
-      .header h2 { font-size: 1.8rem; }
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
 </head>
 <body>
   <header>
@@ -55,69 +17,16 @@
     </nav>
   </header>
 
-  <section class="event-container">
-    <div class="header">
-      <h2 id="event-headline">Loading...</h2>
-      <div class="metadata">
-        <span id="event-date"></span>
-        <span id="event-region"></span>
-        <span id="event-category"></span>
-      </div>
-    </div>
-
-    <div class="hero">
-      <img id="hero-image" src="" alt="">
-      <div class="summary">
-        <p id="event-summary">Loading...</p>
-      </div>
-    </div>
-
-    <div class="content">
-      <div class="main-content">
-        <h3>Historical Context</h3>
-        <p id="event-context">Loading...</p>
-
-        <h3>Key Developments</h3>
-        <ul id="event-developments"></ul>
-
-        <h3>Global Reactions</h3>
-        <p id="event-reactions">Loading...</p>
-      </div>
-
-      <div class="sidebar">
-        <h4>Key Players</h4>
-        <ul id="event-key-players"></ul>
-
-        <h4>Impact Snapshot</h4>
-        <div class="impact-snapshot" id="impact-chart"></div>
-
-        <h4>Quick Facts</h4>
-        <ul id="event-quick-facts"></ul>
-      </div>
-    </div>
-
-    <div class="multimedia">
-      <h3>Multimedia</h3>
-      <div class="gallery" id="event-gallery">
-        <!-- Placeholder for additional media -->
-      </div>
-      <div id="event-infographic">
-        <!-- Placeholder for timeline chart -->
-      </div>
-    </div>
-
-    <div class="sources-references">
-      <h3>Primary Documents</h3>
-      <ul id="event-sources"></ul>
-
-      <h3>References</h3>
-      <ul id="event-references"></ul>
-    </div>
-
-    <div class="related-events">
-      <h3>Related Events</h3>
-      <div class="event-grid" id="event-related"></div>
-    </div>
+  <section id="event-details" style="max-width: 800px; margin: 2rem auto; padding: 1rem; background: #fff; box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);">
+    <h2 id="event-headline">Loading...</h2>
+    <p><strong>Date:</strong> <span id="event-date"></span></p>
+    <p><strong>Region:</strong> <span id="event-region"></span></p>
+    <p><strong>Category:</strong> <span id="event-category"></span></p>
+    <p><strong>Description:</strong> <span id="event-description"></span></p>
+    <div id="event-image" style="margin: 1rem 0;"></div>
+    <h3>Primary Sources</h3>
+    <ul id="event-sources"></ul>
+    <p id="error-message" style="color: red; display: none;"></p>
   </section>
 
   <footer>
@@ -140,7 +49,7 @@
         }
         const event = await response.json();
 
-        // Header
+        // Populate event details
         document.getElementById('event-headline').textContent = event.text.headline;
         document.getElementById('event-date').textContent = [
           event.start_date.year,
@@ -149,95 +58,18 @@
         ].filter(Boolean).join('-');
         document.getElementById('event-region').textContent = event.group;
         document.getElementById('event-category').textContent = event.category;
+        document.getElementById('event-description').textContent = event.text.text;
 
-        // Hero Section
-        document.getElementById('event-summary').textContent = event.summary || 'No summary available.';
-        const heroImage = document.getElementById('hero-image');
+        // Display image if available
         if (event.media && event.media.url) {
-          heroImage.src = event.media.url;
-          heroImage.alt = event.text.headline;
-        } else {
-          heroImage.style.display = 'none';
+          const img = document.createElement('img');
+          img.src = event.media.url;
+          img.alt = event.text.headline;
+          img.style.maxWidth = '100%';
+          document.getElementById('event-image').appendChild(img);
         }
 
-        // Main Content
-        document.getElementById('event-context').textContent = event.context || 'No context available.';
-        const developmentsList = document.getElementById('event-developments');
-        if (event.developments && event.developments.length > 0) {
-          developmentsList.innerHTML = event.developments.map(d => `<li>${d}</li>`).join('');
-        } else {
-          developmentsList.innerHTML = '<li>No developments listed.</li>';
-        }
-        document.getElementById('event-reactions').textContent = event.reactions || 'No reactions available.';
-
-        // Sidebar
-        const keyPlayersList = document.getElementById('event-key-players');
-        if (event.keyPlayers && event.keyPlayers.length > 0) {
-          keyPlayersList.innerHTML = event.keyPlayers.map(p => `<li>${p}</li>`).join('');
-        } else {
-          keyPlayersList.innerHTML = '<li>No key players listed.</li>';
-        }
-
-        if (event.impactData) {
-          const chartDiv = document.getElementById('impact-chart');
-          const chartCode = `
-            {
-              "type": "bar",
-              "data": {
-                "labels": ["Short-term", "Long-term"],
-                "datasets": [{
-                  "label": "Impact",
-                  "data": [${event.impactData.short || 0}, ${event.impactData.long || 0}],
-                  "backgroundColor": ["#4a90e2", "#50e3c2"]
-                }]
-              },
-              "options": {
-                "scales": { "y": { "beginAtZero": true, "max": 100 } },
-                "plugins": { "legend": { "position": "top" } }
-              }
-            }
-          `;
-          chartDiv.innerHTML = `<xai-canvas type="chartjs">${chartCode}</xai-canvas>`;
-        }
-
-        const quickFactsList = document.getElementById('event-quick-facts');
-        if (event.quickFacts && event.quickFacts.length > 0) {
-          quickFactsList.innerHTML = event.quickFacts.map(f => `<li>${f}</li>`).join('');
-        } else {
-          quickFactsList.innerHTML = '<li>No quick facts available.</li>';
-        }
-
-        // Multimedia (Gallery placeholder)
-        const gallery = document.getElementById('event-gallery');
-        if (event.additionalMedia && event.additionalMedia.length > 0) {
-          gallery.innerHTML = event.additionalMedia.map(url => `<img src="${url}" alt="Event media">`).join('');
-        } else {
-          gallery.innerHTML = '<p>No additional media available.</p>';
-        }
-
-        // Infographic (example timeline chart)
-        const infographicDiv = document.getElementById('event-infographic');
-        const timelineChart = `
-          {
-            "type": "line",
-            "data": {
-              "labels": ["Pre-Event", "Event", "Post-Event"],
-              "datasets": [{
-                "label": "Influence",
-                "data": [30, 80, 50],
-                "borderColor": "#1976d2",
-                "fill": false
-              }]
-            },
-            "options": {
-              "scales": { "y": { "beginAtZero": true, "max": 100 } },
-              "plugins": { "legend": { "position": "top" } }
-            }
-          }
-        `;
-        infographicDiv.innerHTML = `<xai-canvas type="chartjs">${timelineChart}</xai-canvas>`;
-
-        // Primary Documents
+        // Populate primary sources
         const sourcesList = document.getElementById('event-sources');
         if (event.primarySources && event.primarySources.length > 0) {
           event.primarySources.forEach(source => {
@@ -253,40 +85,6 @@
         } else {
           sourcesList.innerHTML = '<li>No primary sources available.</li>';
         }
-
-        // References
-        const referencesList = document.getElementById('event-references');
-        if (event.references && event.references.length > 0) {
-          event.references.forEach(ref => {
-            const li = document.createElement('li');
-            const a = document.createElement('a');
-            a.href = ref.url || '#';
-            a.textContent = ref.title || ref;
-            a.target = '_blank';
-            a.rel = 'noopener noreferrer';
-            li.appendChild(a);
-            referencesList.appendChild(li);
-          });
-        } else {
-          referencesList.innerHTML = '<li>No additional references available.</li>';
-        }
-
-        // Related Events
-        const relatedEventsDiv = document.getElementById('event-related');
-        const related = [
-          { id: 'event-1910-001', title: 'World War I Begins', url: '/event-details.html?id=event-1910-001' },
-          { id: 'event-2000-001', title: 'Gulf War', url: '/event-details.html?id=event-2000-001' }
-        ].filter(e => e.id !== eventId);
-        related.forEach(event => {
-          const div = document.createElement('div');
-          div.className = 'event-card';
-          const a = document.createElement('a');
-          a.href = event.url;
-          a.textContent = event.title;
-          div.appendChild(a);
-          relatedEventsDiv.appendChild(div);
-        });
-
       } catch (error) {
         console.error('Error loading event:', error);
         showError('Unable to load event details. Please try again later.');
@@ -294,13 +92,14 @@
     }
 
     function showError(message) {
+      const errorMessage = document.getElementById('error-message');
+      errorMessage.textContent = message;
+      errorMessage.style.display = 'block';
       document.getElementById('event-headline').textContent = 'Error';
-      document.getElementById('event-summary').textContent = message;
     }
 
     document.addEventListener('DOMContentLoaded', loadEventDetails);
   </script>
-  <!-- Vercel Analytics -->
   <script defer src="https://va.vercel-scripts.com/v1/script.js" data-site-id="prj_M12fFfYYVT0kGlDLlaVGAAHUmpPo"></script>
 </body>
 </html>
