@@ -11,7 +11,6 @@ app.use(express.json());
 app.use(express.static('.'));
 
 const submissionsFile = path.join('/tmp', 'submissions.json');
-const commentsFile = path.join('/tmp', 'comments.json');
 
 async function initializeFile(filePath, defaultValue = []) {
   try {
@@ -32,21 +31,32 @@ app.get('/api/event/:id', async (req, res) => {
       const events = decade.data.events || [];
       foundEvent = events.find(event => event.id === eventId);
       if (foundEvent) {
-        // Enhance with additional data (example for "Iraq War Begins")
+        // Enhance with additional data for "Iraq War Begins"
         if (eventId === 'event-2000-002') {
           foundEvent = {
             ...foundEvent,
             summary: 'The U.S.-led coalition invaded Iraq on March 20, 2003, to remove Saddam Hussein from power.',
-            keyPlayers: 'United States, United Kingdom, Iraq, Saddam Hussein',
-            context: 'Post-9/11 tensions and alleged weapons of mass destruction led to the invasion.',
-            outcomes: 'Saddam Hussein was deposed; Iraq faced insurgency and civil war.',
-            reactions: 'Global protests; UN criticism; allied support from the UK and Australia.',
-            shortEffects: 'Regime change and initial chaos in Iraq.',
-            longSignificance: 'Rise of ISIS; shifted Middle East geopolitics.',
-            impactData: { short: 75, long: 90 }, // Example impact scores (0-100)
+            context: 'Post-9/11 tensions, allegations of weapons of mass destruction, and failure of UN inspections led to the invasion.',
+            developments: [
+              'Initial "shock and awe" bombing campaign targeted Baghdad.',
+              'Saddam Hussein was captured in December 2003.',
+              'Coalition Provisional Authority established to govern Iraq.'
+            ],
+            reactions: 'Massive global protests; UN Secretary-General Kofi Annan called the invasion illegal; UK and Australia supported the U.S.',
+            keyPlayers: ['United States', 'United Kingdom', 'Iraq', 'Saddam Hussein', 'George W. Bush', 'Tony Blair'],
+            impactData: { short: 75, long: 90 },
+            quickFacts: [
+              'Operation named "Iraqi Freedom."',
+              'Over 150,000 coalition troops involved.',
+              'Saddam executed in 2006.'
+            ],
+            additionalMedia: [
+              'https://example.com/iraq-war-map.jpg',
+              'https://example.com/baghdad-airstrike.jpg'
+            ],
             references: [
               { title: 'The Iraq War', url: 'https://www.britannica.com/event/Iraq-War' },
-              { title: 'UN Reports', url: 'https://digitallibrary.un.org/search?ln=en&f1=subject%3AIraq' }
+              { title: 'UN Reports on Iraq', url: 'https://digitallibrary.un.org/search?ln=en&f1=subject%3AIraq' }
             ]
           };
         }
@@ -65,34 +75,6 @@ app.get('/api/event/:id', async (req, res) => {
     res.json(foundEvent);
   } catch (error) {
     console.error('Error fetching event:', error.message);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-app.get('/api/comments', async (req, res) => {
-  try {
-    const eventId = req.query.eventId;
-    await initializeFile(commentsFile);
-    const content = await fs.readFile(commentsFile, 'utf8');
-    const comments = JSON.parse(content).filter(c => c.eventId === eventId);
-    res.json(comments);
-  } catch (error) {
-    console.error('Error fetching comments:', error.message);
-    res.status(500).json({ message: 'Server error' });
-  }
-});
-
-app.post('/api/comments', async (req, res) => {
-  try {
-    const comment = req.body;
-    await initializeFile(commentsFile);
-    const content = await fs.readFile(commentsFile, 'utf8');
-    const comments = JSON.parse(content);
-    comments.push(comment);
-    await fs.writeFile(commentsFile, JSON.stringify(comments, null, 2));
-    res.json({ message: 'Comment added' });
-  } catch (error) {
-    console.error('Error adding comment:', error.message);
     res.status(500).json({ message: 'Server error' });
   }
 });
