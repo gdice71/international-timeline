@@ -39,12 +39,21 @@ export const timelineData =
       }
     },
     {
-      id: "2003-001",
-      text: { headline: "Iraq War Begins", 
-      text: "The U.S.-led coalition invaded Iraq to depose Saddam Hussein, citing weapons of mass destruction and terrorism links." },
-      start_date: { year: "2003", month: "03", day: "20" },
-      group: "Middle East",
-      category: "Conflict",
+      text: {
+        headline: 'Iraq War Begins',
+        text: 'The United States, along with coalition forces, invades Iraq to topple Saddam Hussein.'
+      },
+      id: "event-2000-002",
+      start_date: {
+        year: '2003',
+        month: '03',
+        day: '20'
+      },
+      group: 'Middle East',
+      category: 'Conflict',
+      media: {
+        url: 'https://www.americanspecialops.com/images/force-recon/marines-hmmwvs.jpg'
+      },
       primarySources: [
         "https://www.archives.gov/files/presidential-libraries/president-bush-addresses-nation-2003.pdf",
         "https://www.un.org/Depts/unmovic/documents/1441.pdf"
