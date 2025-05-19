@@ -20,6 +20,7 @@ export const timelineData = {
           headline: 'Cuban Missile Crisis',
           text: 'US-USSR standoff over Soviet missiles in Cuba. Region: Americas, Category: Conflict'
         },
+        id: "event-1960-001",
         group: 'Americas',
         category: 'Conflict'
       },
@@ -35,6 +36,7 @@ export const timelineData = {
           headline: 'Six-Day War',
           text: 'Israel fought Egypt, Jordan, and Syria, reshaping Middle East borders.'
         },
+        id: "event-1960-002",
         group: 'Middle East',
         category: 'Conflict'
       },
