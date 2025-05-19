@@ -1,1 +1,18 @@
-[]
+[
+  {
+    "id": "1747660433965",
+    "text": {
+      "headline": "test",
+      "text": "test"
+    },
+    "start_date": {
+      "year": "2000",
+      "month": "01",
+      "day": "01"
+    },
+    "group": "Global",
+    "category": "Conflict",
+    "primarySources": [],
+    "summary": ""
+  }
+]
