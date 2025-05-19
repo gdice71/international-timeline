@@ -77,6 +77,15 @@ nav input {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   flex: 0 0 auto; /* Prevent stretching, let content define height */
   align-self: center; /* Center horizontally within flex container */
+  overflow: hidden; /* Prevent content overflow from breaking layout */
+}
+
+/* Ensure images within event-details do not exceed container width */
+.event-details img {
+  max-width: 100%; /* Ensure image scales to fit container */
+  height: auto; /* Maintain aspect ratio */
+  display: block; /* Remove any inline spacing */
+  margin: 0 auto; /* Center the image horizontally */
 }
 
 .event-details h2 {
