@@ -7,6 +7,7 @@ body {
   min-height: 100vh; /* Ensure body takes at least full viewport height */
   display: flex;
   flex-direction: column;
+  justify-content: center; /* Center content vertically */
 }
 
 header {
@@ -66,14 +67,16 @@ nav input {
   padding: 1rem;
 }
 
-/* New section for event details page */
+/* Updated section for event details page */
 .event-details {
-  max-width: 600px;
-  margin: 2rem auto;
+  max-width: 66.66%; /* Approximately 2/3 of the viewport width */
+  width: 100%; /* Ensure it respects max-width */
+  margin: 2rem auto; /* Center horizontally with some top/bottom margin */
   padding: 1rem;
   background: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  flex: 1 0 auto; /* Allow content to grow but not shrink below content height */
+  flex: 0 0 auto; /* Prevent stretching, let content define height */
+  align-self: center; /* Center horizontally within flex container */
 }
 
 .event-details h2 {
@@ -250,6 +253,7 @@ footer {
   .event-details {
       margin: 1rem;
       padding: 1rem;
+      max-width: 90%; /* Adjust for mobile to avoid too narrow */
   }
 
   #submissions {
