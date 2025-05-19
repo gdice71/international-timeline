@@ -3,13 +3,11 @@ import { Octokit } from '@octokit/rest';
 import dotenv from 'dotenv';
 import { decades } from './decades.js';
 
-// Load environment variables
 dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Initialize GitHub API client with validation
 if (!process.env.GITHUB_TOKEN || !process.env.GITHUB_REPO) {
   console.error('Error: GITHUB_TOKEN or GITHUB_REPO not set in environment variables');
   process.exit(1);
@@ -21,7 +19,6 @@ const githubRepo = {
   repo: process.env.GITHUB_REPO.split('/')[1]
 };
 
-// Middleware
 app.use(express.json());
 app.use(express.static('.'));
 
@@ -170,18 +167,25 @@ app.post('/api/approve-event', async (req, res) => {
         path: githubPath
       });
       const fileContent = Buffer.from(currentFile.data.content, 'base64').toString('utf8');
-      // Parse the file content to extract events
-      const match = fileContent.match(/events:\s*(\[.*?\])\s*}/s);
-      if (match && match[1]) {
-        events = JSON.parse(match[1]);
+      
+      // Extract the timelineData object by removing the export statement
+      const dataMatch = fileContent.match(/export const timelineData = (\{[\s\S]*?\});/);
+      if (!dataMatch || !dataMatch[1]) {
+        throw new Error('Could not parse timelineData from decade file');
       }
+      
+      // Parse the timelineData object
+      const timelineDataStr = dataMatch[1];
+      // Create a safe evaluation function to parse the JavaScript object
+      const timelineData = eval(`(${timelineDataStr})`);
+      events = timelineData.events || [];
     } catch (error) {
       if (error.status === 404) {
         console.log(`Decade file ${githubPath} not found, creating new one`);
         events = [];
       } else {
-        console.error('Error fetching decade file from GitHub:', error.message, error.status, error.response?.data);
-        throw new Error(`Failed to fetch decade file: ${error.message}`);
+        console.error('Error fetching or parsing decade file from GitHub:', error.message, error.status, error.response?.data);
+        throw new Error(`Failed to fetch or parse decade file: ${error.message}`);
       }
     }
 
