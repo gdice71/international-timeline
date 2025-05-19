@@ -4,10 +4,9 @@ body {
   padding: 0;
   background: #f4f4f4;
   color: #333;
-  min-height: 100vh; /* Ensure body takes at least full viewport height */
+  min-height: 100vh;
   display: flex;
   flex-direction: column;
-  justify-content: center; /* Center content vertically */
 }
 
 header {
@@ -70,22 +69,24 @@ nav input {
 /* Updated section for event details page */
 .event-details {
   max-width: 66.66%; /* Approximately 2/3 of the viewport width */
-  width: 100%; /* Ensure it respects max-width */
-  margin: 2rem auto; /* Center horizontally with some top/bottom margin */
+  width: 100%;
+  margin: 2rem auto;
   padding: 1rem;
   background: #fff;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-  flex: 0 0 auto; /* Prevent stretching, let content define height */
-  align-self: center; /* Center horizontally within flex container */
-  overflow: hidden; /* Prevent content overflow from breaking layout */
+  flex: 0 0 auto;
+  align-self: center;
+  overflow: hidden;
+  border-radius: 8px;
 }
 
 /* Ensure images within event-details do not exceed container width */
 .event-details img {
-  max-width: 100%; /* Ensure image scales to fit container */
-  height: auto; /* Maintain aspect ratio */
-  display: block; /* Remove any inline spacing */
-  margin: 0 auto; /* Center the image horizontally */
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1rem auto;
+  border-radius: 4px;
 }
 
 .event-details h2 {
@@ -107,10 +108,10 @@ footer {
   padding: 1rem;
   background: #333;
   color: white;
-  margin-top: auto; /* Push footer to bottom if content is short */
+  margin-top: auto;
 }
 
-/* Contribute form styling (unchanged) */
+/* Contribute form styling */
 #contribute-form {
   max-width: 600px;
   margin: 2rem auto;
@@ -166,7 +167,7 @@ footer {
   color: #333;
 }
 
-/* Source fields styling (unchanged) */
+/* Source fields styling */
 .source {
   margin-top: 1rem;
   padding: 1rem;
@@ -194,7 +195,7 @@ footer {
   background: #aaa;
 }
 
-/* Admin page styling (unchanged) */
+/* Admin page styling */
 #submissions {
   max-width: 800px;
   margin: 2rem auto;
@@ -262,7 +263,7 @@ footer {
   .event-details {
       margin: 1rem;
       padding: 1rem;
-      max-width: 90%; /* Adjust for mobile to avoid too narrow */
+      max-width: 90%;
   }
 
   #submissions {
@@ -271,33 +272,33 @@ footer {
   }
 }
 
-/* Timeline navigation arrows styling (unchanged) */
+/* Timeline navigation arrows styling */
 .tl-slidenav-next .tl-slidenav-content-container .tl-slidenav-icon,
 .tl-slidenav-previous .tl-slidenav-content-container .tl-slidenav-icon {
   color: #333 !important;
   text-shadow: none !important;
 }
 
-/* Timeline slide titles and text (unchanged) */
+/* Timeline slide titles and text */
 .tl-headline-date, .tl-headline, .tl-text {
   color: #333 !important;
   text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7) !important;
 }
 
-/* Remove or adjust the circular background (unchanged) */
+/* Remove or adjust the circular background */
 .tl-slidenav-next .tl-slidenav-content-container,
 .tl-slidenav-previous .tl-slidenav-content-container {
   background-color: transparent !important;
   border-radius: 0 !important;
 }
 
-/* Hover state for navigation (unchanged) */
+/* Hover state for navigation */
 .tl-slidenav-next:hover .tl-slidenav-icon,
 .tl-slidenav-previous:hover .tl-slidenav-icon {
   color: #000 !important;
 }
 
-/* Force all text in timeline to dark (unchanged) */
+/* Force all text in timeline to dark */
 #timeline * {
   color: #333 !important;
 }

@@ -16,84 +16,69 @@
     </nav>
   </header>
 
-  <main>
-    <section id="event-details">
-      <h2 id="event-headline">Loading...</h2>
-      <p><strong>Date:</strong> <span id="event-date"></span></p>
-      <p><strong>Region:</strong> <span id="event-region"></span></p>
-      <p><strong>Category:</strong> <span id="event-category"></span></p>
-      <p><strong>Description:</strong> <span id="event-description"></span></p>
-      <div id="event-media"></div>
+  <div class="event-details">
+    <h2 class="loading">Loading...</h2>
+    <p><strong>Date:</strong> <span name="date"></span></p>
+    <p><strong>Region:</strong> <span name="region"></span></p>
+    <p><strong>Category:</strong> <span name="category"></span></p>
+    <p><strong>Description:</strong> <span name="description"></span></p>
+    <div class="event-image">
+      <img src="" alt="Event Image" name="event-image" style="display: none;">
+    </div>
+    <div>
       <h3>Detailed Summary</h3>
-      <p id="event-summary"></p>
+      <p name="summary"></p>
+    </div>
+    <div>
       <h3>Sources</h3>
-      <ul id="event-sources"></ul>
-    </section>
-  </main>
+      <ul name="sources"></ul>
+    </div>
+  </div>
 
   <footer>
     <p>Data from UN, Wikipedia, and contributors. © 2025</p>
   </footer>
 
   <script>
-    document.addEventListener('DOMContentLoaded', async () => {
+    document.addEventListener('DOMContentLoaded', () => {
       const urlParams = new URLSearchParams(window.location.search);
       const eventId = urlParams.get('id');
+      if (eventId) {
+        fetch(`/api/event/${eventId}`)
+          .then(response => response.json())
+          .then(data => {
+            document.querySelector('h2.loading').textContent = data.text.headline;
+            document.querySelector('[name="date"]').textContent = `${data.start_date.year}-${data.start_date.month || ''}-${data.start_date.day || ''}`;
+            document.querySelector('[name="region"]').textContent = data.group;
+            document.querySelector('[name="category"]').textContent = data.category;
+            document.querySelector('[name="description"]').textContent = data.text.text;
+            document.querySelector('[name="summary"]').textContent = data.summary || 'No detailed summary available.';
 
-      if (!eventId) {
-        document.getElementById('event-headline').textContent = 'Error: No event ID provided';
-        return;
-      }
-
-      try {
-        const response = await fetch(`/api/event/${eventId}`);
-        if (!response.ok) {
-          throw new Error('Event not found');
-        }
-        const event = await response.json();
-
-        // Populate event details
-        document.getElementById('event-headline').textContent = event.text.headline;
-        document.getElementById('event-date').textContent = `${event.start_date.year}-${event.start_date.month}-${event.start_date.day}`;
-        document.getElementById('event-region').textContent = event.group;
-        document.getElementById('event-category').textContent = event.category;
-        document.getElementById('event-description').textContent = event.text.text;
-        document.getElementById('event-summary').textContent = event.summary || 'No summary available.';
-
-        // Display media if available
-        if (event.media && event.media.url) {
-          const mediaDiv = document.getElementById('event-media');
-          const img = document.createElement('img');
-          img.src = event.media.url;
-          img.alt = event.text.headline;
-          img.style.maxWidth = '100%';
-          mediaDiv.appendChild(img);
-        }
-
-        // Display sources
-        const sourcesList = document.getElementById('event-sources');
-        if (event.primarySources && event.primarySources.length > 0) {
-          event.primarySources.forEach(source => {
-            const li = document.createElement('li');
-            if (typeof source === 'string') {
-              // Backward compatibility for old string-based sources
-              li.innerHTML = `<a href="${source}" target="_blank">${source}</a>`;
-            } else {
-              // New object-based sources
-              li.innerHTML = `
-                <a href="${source.url}" target="_blank">${source.title || source.url}</a>
-                ${source.summary ? `<p><strong>Summary:</strong> ${source.summary}</p>` : ''}
-                ${source.relevance ? `<p><strong>Relevance:</strong> ${source.relevance}</p>` : ''}
-              `;
+            // Handle image
+            const imgElement = document.querySelector('[name="event-image"]');
+            if (data.media && data.media.url) {
+              imgElement.src = data.media.url;
+              imgElement.style.display = 'block';
             }
-            sourcesList.appendChild(li);
+
+            // Handle sources
+            const sourcesList = document.querySelector('[name="sources"]');
+            if (data.primarySources && data.primarySources.length > 0) {
+              data.primarySources.forEach(source => {
+                const li = document.createElement('li');
+                li.innerHTML = `<a href="${source.url}" target="_blank">${source.title || source.url}</a>${source.summary ? `<p>${source.summary}</p>` : ''}${source.relevance ? `<p><em>Relevance:</em> ${source.relevance}</p>` : ''}`;
+                sourcesList.appendChild(li);
+              });
+            } else {
+              sourcesList.innerHTML = '<li>No sources available.</li>';
+            }
+          })
+          .catch(error => {
+            console.error('Error loading event:', error);
+            document.querySelector('.event-details').innerHTML = '<p>Error loading event details. Please try again later.</p>';
           });
-        } else {
-          sourcesList.innerHTML = '<li>No sources available.</li>';
-        }
-      } catch (error) {
-        document.getElementById('event-headline').textContent = 'Error loading event';
-        console.error('Error fetching event:', error);
+      } else {
+        document.querySelector('.event-details').innerHTML = '<p>No event ID provided.</p>';
       }
     });
   </script>
