@@ -68,7 +68,7 @@ nav input {
 
 /* New section for event details page */
 .event-details {
-  max-width: 800px;
+  max-width: 600px;
   margin: 2rem auto;
   padding: 1rem;
   background: #fff;
