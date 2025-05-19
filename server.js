@@ -79,8 +79,8 @@ app.post('/api/submit-event', async (req, res) => {
 
     const decade = `${Math.floor(year / 10) * 10}s`;
     const decadeConfig = decades.find(d => d.decade === decade);
-    if (!decadeConfig) {
-      return res.status(400).json({ message: `Decade ${decade} not found in config` });
+    if (!decadeConfig || !decadeConfig.file) {
+      return res.status(400).json({ message: `Decade ${decade} configuration or file path is invalid` });
     }
 
     const [yearStr, monthStr, dayStr] = date.split('-');
@@ -116,7 +116,7 @@ app.get('/api/event/:id', async (req, res) => {
     let foundEvent = null;
 
     for (const decade of decades) {
-      const events = decade.data.events || [];
+      const events = decade.data?.events || [];
       foundEvent = events.find(event => event.id === eventId);
       if (foundEvent) break;
     }
@@ -158,8 +158,8 @@ app.post('/api/approve-event', async (req, res) => {
 
     const decade = `${Math.floor(submission.start_date.year / 10) * 10}s`;
     const decadeConfig = decades.find(d => d.decade === decade);
-    if (!decadeConfig) {
-      return res.status(400).json({ message: `Invalid decade: ${decade}` });
+    if (!decadeConfig || !decadeConfig.file) {
+      return res.status(400).json({ message: `Invalid decade configuration for ${decade}` });
     }
 
     const filePath = path.join('/tmp', decadeConfig.file);
@@ -203,6 +203,9 @@ app.post('/api/approve-event', async (req, res) => {
     await fs.writeFile(filePath, newContent);
 
     const relativePath = decadeConfig.file;
+    if (!relativePath || typeof relativePath !== 'string') {
+      throw new Error('Invalid file path for decade configuration');
+    }
     const githubPath = path.join('years', relativePath.split('/').pop());
 
     const currentFile = await octokit.repos.getContent({
@@ -231,6 +234,9 @@ app.post('/api/approve-event', async (req, res) => {
 app.get('/api/submissions', async (req, res) => {
   try {
     const submissions = await getSubmissions();
+    if (!Array.isArray(submissions)) {
+      throw new Error('Invalid submissions data format');
+    }
     res.status(200).json(submissions);
   } catch (error) {
     console.error('Error reading submissions:', error.message, error.response?.data);
