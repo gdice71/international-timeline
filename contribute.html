@@ -100,18 +100,29 @@
     document.getElementById('event-form').addEventListener('submit', async (e) => {
       e.preventDefault();
       const form = e.target;
+      const headline = form.querySelector('#headline').value.trim();
+      const description = form.querySelector('#description').value.trim();
+      const date = form.querySelector('#date').value;
+      const region = form.querySelector('#region').value;
+      const category = form.querySelector('#category').value;
+
+      if (!headline || !description || !date || !region || !category) {
+        document.getElementById('form-message').textContent = 'All required fields (Headline, Description, Date, Region, Category) must be filled.';
+        return;
+      }
+
       const formData = new FormData(form);
       const sources = Array.from(form.querySelectorAll('input[name="primarySources"]'))
-        .map(input => input.value)
-        .filter(value => value.trim() !== '');
+        .map(input => input.value.trim())
+        .filter(value => value !== '');
 
       const data = {
-        headline: formData.get('headline'),
-        description: formData.get('description'),
+        headline,
+        description,
         summary: formData.get('summary') || '',
-        date: formData.get('date'),
-        region: formData.get('region'),
-        category: formData.get('category'),
+        date,
+        region,
+        category,
         imageUrl: formData.get('imageUrl') || '',
         primarySources: sources
       };
@@ -124,12 +135,13 @@
         });
         const result = await response.json();
         if (!response.ok) {
-          throw new Error(result.message);
+          throw new Error(result.message || 'Failed to submit event');
         }
         document.getElementById('form-message').textContent = result.message;
         form.reset();
         document.getElementById('sources-container').innerHTML = '<input type="url" name="primarySources" placeholder="Enter source URL">';
       } catch (error) {
+        console.error('Submission error:', error);
         document.getElementById('form-message').textContent = error.message;
       }
     });

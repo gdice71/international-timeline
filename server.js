@@ -3,6 +3,10 @@ import { promises as fs } from 'fs';
 import path from 'path';
 import { decades } from './decades.js';
 import { Octokit } from '@octokit/rest';
+import dotenv from 'dotenv';
+
+// Load environment variables
+dotenv.config();
 
 const app = express();
 const port = process.env.PORT || 3000;
@@ -26,10 +30,11 @@ async function getSubmissions() {
     });
     return JSON.parse(Buffer.from(data.content, 'base64').toString('utf8'));
   } catch (error) {
+    console.error('GitHub getSubmissions error:', error.message);
     if (error.status === 404) {
       return [];
     }
-    throw error;
+    throw new Error(`Failed to fetch submissions: ${error.message}`);
   }
 }
 
@@ -48,8 +53,8 @@ async function saveSubmissions(submissions) {
       sha: current ? current.data.sha : undefined
     });
   } catch (error) {
-    console.error('Error saving submissions:', error.message);
-    throw error;
+    console.error('GitHub saveSubmissions error:', error.message);
+    throw new Error(`Failed to save submissions: ${error.message}`);
   }
 }
 
@@ -57,18 +62,22 @@ app.post('/api/submit-event', async (req, res) => {
   try {
     const { headline, description, date, region, category, imageUrl, primarySources, summary } = req.body;
     console.log('Received submission:', { headline, date, region, category, imageUrl, summary });
+
+    // Validate required fields
     if (!headline || !description || !date || !region || !category) {
       return res.status(400).json({ message: 'Headline, description, date, region, and category are required' });
     }
 
+    // Validate date format
     const year = new Date(date).getFullYear();
     if (isNaN(year)) {
-      throw new Error('Invalid date format');
+      return res.status(400).json({ message: 'Invalid date format. Use YYYY-MM-DD' });
     }
+
     const decade = `${Math.floor(year / 10) * 10}s`;
     const decadeConfig = decades.find(d => d.decade === decade);
     if (!decadeConfig) {
-      throw new Error(`Decade ${decade} not found in config`);
+      return res.status(400).json({ message: `Decade ${decade} not found in config` });
     }
 
     const [yearStr, monthStr, dayStr] = date.split('-');
@@ -91,7 +100,7 @@ app.post('/api/submit-event', async (req, res) => {
     await saveSubmissions(submissions);
 
     console.log('Submission saved:', event.id);
-    res.json({ message: 'Event submitted for review' });
+    res.status(200).json({ message: 'Event submitted for review' });
   } catch (error) {
     console.error('Submission error:', error.message);
     res.status(500).json({ message: `Server error: ${error.message}` });
@@ -118,10 +127,10 @@ app.get('/api/event/:id', async (req, res) => {
       return res.status(404).json({ message: 'Event not found' });
     }
 
-    res.json(foundEvent);
+    res.status(200).json(foundEvent);
   } catch (error) {
     console.error('Error fetching event:', error.message);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: `Server error: ${error.message}` });
   }
 });
 
@@ -129,7 +138,7 @@ app.post('/api/approve-event', async (req, res) => {
   try {
     const { id, action } = req.body;
     if (!id || !['approve', 'reject'].includes(action)) {
-      return res.status(400).json({ message: 'Invalid request' });
+      return res.status(400).json({ message: 'Invalid request: id and action (approve/reject) are required' });
     }
 
     const submissions = await getSubmissions();
@@ -141,14 +150,14 @@ app.post('/api/approve-event', async (req, res) => {
     if (action === 'reject') {
       const updatedSubmissions = submissions.filter(s => s.id !== id);
       await saveSubmissions(updatedSubmissions);
-      return res.json({ message: 'Submission rejected' });
+      return res.status(200).json({ message: 'Submission rejected' });
     }
 
     // Approve: Add to decade file
     const decade = `${Math.floor(submission.start_date.year / 10) * 10}s`;
     const decadeConfig = decades.find(d => d.decade === decade);
     if (!decadeConfig) {
-      return res.status(400).json({ message: 'Invalid decade' });
+      return res.status(400).json({ message: `Invalid decade: ${decade}` });
     }
 
     const filePath = path.join('/tmp', decadeConfig.file);
@@ -191,24 +200,41 @@ app.post('/api/approve-event', async (req, res) => {
 };`;
     await fs.writeFile(filePath, newContent);
 
+    // Commit updated data file to GitHub
+    const relativePath = decadeConfig.file;
+    const githubPath = path.join('years', relativePath.split('/').pop());
+
+    const currentFile = await octokit.repos.getContent({
+      ...githubRepo,
+      path: githubPath
+    }).catch(() => null);
+
+    await octokit.repos.createOrUpdateFileContents({
+      ...githubRepo,
+      path: githubPath,
+      message: `Add approved event ${submission.id} to ${decade}`,
+      content: Buffer.from(newContent).toString('base64'),
+      sha: currentFile ? currentFile.data.sha : undefined
+    });
+
     // Remove from submissions
     const updatedSubmissions = submissions.filter(s => s.id !== id);
     await saveSubmissions(updatedSubmissions);
 
-    res.json({ message: 'Event approved and added to timeline' });
+    res.status(200).json({ message: 'Event approved and added to timeline' });
   } catch (error) {
     console.error('Error processing approval:', error.message);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: `Server error: ${error.message}` });
   }
 });
 
 app.get('/api/submissions', async (req, res) => {
   try {
     const submissions = await getSubmissions();
-    res.json(submissions);
+    res.status(200).json(submissions);
   } catch (error) {
     console.error('Error reading submissions:', error.message);
-    res.status(500).json({ message: 'Server error' });
+    res.status(500).json({ message: `Server error: ${error.message}` });
   }
 });
 
