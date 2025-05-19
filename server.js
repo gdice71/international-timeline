@@ -11,7 +11,12 @@ dotenv.config();
 const app = express();
 const port = process.env.PORT || 3000;
 
-// Initialize GitHub API client
+// Initialize GitHub API client with validation
+if (!process.env.GITHUB_TOKEN || !process.env.GITHUB_REPO) {
+  console.error('Error: GITHUB_TOKEN or GITHUB_REPO not set in environment variables');
+  process.exit(1);
+}
+
 const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
 const githubRepo = {
   owner: process.env.GITHUB_REPO.split('/')[0],
@@ -24,17 +29,17 @@ app.use(express.static('.'));
 
 async function getSubmissions() {
   try {
-    const { data } = await octokit.repos.getContent({
+    const response = await octokit.repos.getContent({
       ...githubRepo,
       path: 'submissions.json'
     });
-    return JSON.parse(Buffer.from(data.content, 'base64').toString('utf8'));
+    return JSON.parse(Buffer.from(response.data.content, 'base64').toString('utf8'));
   } catch (error) {
-    console.error('GitHub getSubmissions error:', error.message);
+    console.error('GitHub getSubmissions error:', error.message, error.status, error.response?.data);
     if (error.status === 404) {
       return [];
     }
-    throw new Error(`Failed to fetch submissions: ${error.message}`);
+    throw new Error(`GitHub API error: ${error.message}`);
   }
 }
 
@@ -53,8 +58,8 @@ async function saveSubmissions(submissions) {
       sha: current ? current.data.sha : undefined
     });
   } catch (error) {
-    console.error('GitHub saveSubmissions error:', error.message);
-    throw new Error(`Failed to save submissions: ${error.message}`);
+    console.error('GitHub saveSubmissions error:', error.message, error.status, error.response?.data);
+    throw new Error(`GitHub API error: ${error.message}`);
   }
 }
 
@@ -63,12 +68,10 @@ app.post('/api/submit-event', async (req, res) => {
     const { headline, description, date, region, category, imageUrl, primarySources, summary } = req.body;
     console.log('Received submission:', { headline, date, region, category, imageUrl, summary });
 
-    // Validate required fields
     if (!headline || !description || !date || !region || !category) {
       return res.status(400).json({ message: 'Headline, description, date, region, and category are required' });
     }
 
-    // Validate date format
     const year = new Date(date).getFullYear();
     if (isNaN(year)) {
       return res.status(400).json({ message: 'Invalid date format. Use YYYY-MM-DD' });
@@ -153,7 +156,6 @@ app.post('/api/approve-event', async (req, res) => {
       return res.status(200).json({ message: 'Submission rejected' });
     }
 
-    // Approve: Add to decade file
     const decade = `${Math.floor(submission.start_date.year / 10) * 10}s`;
     const decadeConfig = decades.find(d => d.decade === decade);
     if (!decadeConfig) {
@@ -200,7 +202,6 @@ app.post('/api/approve-event', async (req, res) => {
 };`;
     await fs.writeFile(filePath, newContent);
 
-    // Commit updated data file to GitHub
     const relativePath = decadeConfig.file;
     const githubPath = path.join('years', relativePath.split('/').pop());
 
@@ -217,13 +218,12 @@ app.post('/api/approve-event', async (req, res) => {
       sha: currentFile ? currentFile.data.sha : undefined
     });
 
-    // Remove from submissions
     const updatedSubmissions = submissions.filter(s => s.id !== id);
     await saveSubmissions(updatedSubmissions);
 
     res.status(200).json({ message: 'Event approved and added to timeline' });
   } catch (error) {
-    console.error('Error processing approval:', error.message);
+    console.error('Error processing approval:', error.message, error.response?.data);
     res.status(500).json({ message: `Server error: ${error.message}` });
   }
 });
@@ -233,7 +233,7 @@ app.get('/api/submissions', async (req, res) => {
     const submissions = await getSubmissions();
     res.status(200).json(submissions);
   } catch (error) {
-    console.error('Error reading submissions:', error.message);
+    console.error('Error reading submissions:', error.message, error.response?.data);
     res.status(500).json({ message: `Server error: ${error.message}` });
   }
 });
