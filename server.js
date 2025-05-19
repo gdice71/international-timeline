@@ -168,7 +168,7 @@ app.post('/api/approve-event', async (req, res) => {
       });
       const fileContent = Buffer.from(currentFile.data.content, 'base64').toString('utf8');
 
-      // Extract the timelineData object, excluding the trailing semicolon
+      // Extract the timelineData object
       const dataMatch = fileContent.match(/export\s+const\s+timelineData\s*=\s*(\{[\s\S]*?\})/);
       if (!dataMatch || !dataMatch[1]) {
         console.error('Failed to match timelineData in file content:', fileContent);
@@ -179,9 +179,15 @@ app.post('/api/approve-event', async (req, res) => {
       const timelineDataStr = dataMatch[1];
       let timelineData;
       try {
-        timelineData = eval(`(${timelineDataStr})`);
+        // Try JSON.parse first for better security
+        try {
+          timelineData = JSON.parse(timelineDataStr);
+        } catch (jsonError) {
+          // Fall back to eval if JSON.parse fails
+          timelineData = eval(`(${timelineDataStr})`);
+        }
       } catch (evalError) {
-        console.error('Failed to eval timelineData:', timelineDataStr, evalError.message);
+        console.error('Failed to parse timelineData:', timelineDataStr, evalError.message);
         throw new Error(`Failed to parse timelineData: ${evalError.message}`);
       }
       if (!timelineData || !timelineData.title || !('events' in timelineData)) {
