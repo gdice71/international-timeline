@@ -85,12 +85,32 @@ app.post('/api/submit-event', async (req, res) => {
       start_date: { year: yearStr, month: monthStr, day: dayStr },
       group: region,
       category,
-      primarySources: primarySources || [],
       summary: summary || ""
     };
 
     if (imageUrl) {
       event.media = { url: imageUrl };
+    }
+
+    // Handle primarySources as an array of objects
+    if (primarySources && Array.isArray(primarySources)) {
+      event.primarySources = primarySources.map(source => {
+        if (typeof source === 'string') {
+          // Backward compatibility: if a string is provided, convert to object
+          return { url: source, title: "", summary: "", relevance: "" };
+        } else if (source.url) {
+          // Ensure the object has all required fields
+          return {
+            url: source.url,
+            title: source.title || "",
+            summary: source.summary || "",
+            relevance: source.relevance || ""
+          };
+        }
+        return null;
+      }).filter(source => source !== null);
+    } else {
+      event.primarySources = [];
     }
 
     const submissions = await getSubmissions();
@@ -179,11 +199,9 @@ app.post('/api/approve-event', async (req, res) => {
       const timelineDataStr = dataMatch[1];
       let timelineData;
       try {
-        // Try JSON.parse first for better security
         try {
           timelineData = JSON.parse(timelineDataStr);
         } catch (jsonError) {
-          // Fall back to eval if JSON.parse fails
           timelineData = eval(`(${timelineDataStr})`);
         }
       } catch (evalError) {
@@ -211,12 +229,30 @@ app.post('/api/approve-event', async (req, res) => {
       start_date: submission.start_date,
       group: submission.group,
       category: submission.category,
-      primarySources: submission.primarySources || [],
       summary: submission.summary || ""
     };
     if (submission.media) {
       newEvent.media = submission.media;
     }
+    // Ensure primarySources is handled as objects
+    if (submission.primarySources && Array.isArray(submission.primarySources)) {
+      newEvent.primarySources = submission.primarySources.map(source => {
+        if (typeof source === 'string') {
+          return { url: source, title: "", summary: "", relevance: "" };
+        } else if (source.url) {
+          return {
+            url: source.url,
+            title: source.title || "",
+            summary: source.summary || "",
+            relevance: source.relevance || ""
+          };
+        }
+        return null;
+      }).filter(source => source !== null);
+    } else {
+      newEvent.primarySources = [];
+    }
+
     events.push(newEvent);
 
     // Update the decade file on GitHub
