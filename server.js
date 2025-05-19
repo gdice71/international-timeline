@@ -167,17 +167,20 @@ app.post('/api/approve-event', async (req, res) => {
         path: githubPath
       });
       const fileContent = Buffer.from(currentFile.data.content, 'base64').toString('utf8');
-      
-      // Extract the timelineData object by removing the export statement
-      const dataMatch = fileContent.match(/export const timelineData = (\{[\s\S]*?\});/);
+
+      // Extract the timelineData object with a more flexible regex
+      const dataMatch = fileContent.match(/export\s+const\s+timelineData\s*=\s*(\{[\s\S]*?\};)/);
       if (!dataMatch || !dataMatch[1]) {
+        console.error('Failed to match timelineData in file content:', fileContent);
         throw new Error('Could not parse timelineData from decade file');
       }
-      
+
       // Parse the timelineData object
       const timelineDataStr = dataMatch[1];
-      // Create a safe evaluation function to parse the JavaScript object
       const timelineData = eval(`(${timelineDataStr})`);
+      if (!timelineData || !timelineData.title || !('events' in timelineData)) {
+        throw new Error('Invalid timelineData structure');
+      }
       events = timelineData.events || [];
     } catch (error) {
       if (error.status === 404) {
