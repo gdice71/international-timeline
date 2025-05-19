@@ -4,6 +4,9 @@ body {
   padding: 0;
   background: #f4f4f4;
   color: #333;
+  min-height: 100vh; /* Ensure body takes at least full viewport height */
+  display: flex;
+  flex-direction: column;
 }
 
 header {
@@ -14,7 +17,7 @@ header {
 }
 
 header h1 {
-  font-family: 'EB Garamond', serif; 
+  font-family: 'EB Garamond', serif;
   margin: 0;
   font-size: 2rem;
 }
@@ -63,17 +66,39 @@ nav input {
   padding: 1rem;
 }
 
+/* New section for event details page */
+.event-details {
+  max-width: 800px;
+  margin: 2rem auto;
+  padding: 1rem;
+  background: #fff;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  flex: 1 0 auto; /* Allow content to grow but not shrink below content height */
+}
+
+.event-details h2 {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.event-details p {
+  margin: 0.5rem 0;
+}
+
+.event-details .loading {
+  text-align: center;
+  font-style: italic;
+}
+
 footer {
   text-align: center;
   padding: 1rem;
   background: #333;
   color: white;
-  position: relative;
-  bottom: 0;
-  width: 100%;
+  margin-top: auto; /* Push footer to bottom if content is short */
 }
 
-/* Contribute form styling */
+/* Contribute form styling (unchanged) */
 #contribute-form {
   max-width: 600px;
   margin: 2rem auto;
@@ -129,7 +154,7 @@ footer {
   color: #333;
 }
 
-/* Source fields styling */
+/* Source fields styling (unchanged) */
 .source {
   margin-top: 1rem;
   padding: 1rem;
@@ -157,7 +182,7 @@ footer {
   background: #aaa;
 }
 
-/* Admin page styling */
+/* Admin page styling (unchanged) */
 #submissions {
   max-width: 800px;
   margin: 2rem auto;
@@ -221,7 +246,8 @@ footer {
       max-width: 200px;
   }
 
-  #contribute-form {
+  #contribute-form,
+  .event-details {
       margin: 1rem;
       padding: 1rem;
   }
@@ -232,33 +258,33 @@ footer {
   }
 }
 
-/* Timeline navigation arrows styling */
+/* Timeline navigation arrows styling (unchanged) */
 .tl-slidenav-next .tl-slidenav-content-container .tl-slidenav-icon,
 .tl-slidenav-previous .tl-slidenav-content-container .tl-slidenav-icon {
-  color: #333 !important; /* Dark gray color */
+  color: #333 !important;
   text-shadow: none !important;
 }
 
-/* Timeline slide titles and text */
+/* Timeline slide titles and text (unchanged) */
 .tl-headline-date, .tl-headline, .tl-text {
-  color: #333 !important; /* Dark gray color for text */
-  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7) !important; /* White text shadow for better readability */
+  color: #333 !important;
+  text-shadow: 1px 1px 2px rgba(255, 255, 255, 0.7) !important;
 }
 
-/* Remove or adjust the circular background */
+/* Remove or adjust the circular background (unchanged) */
 .tl-slidenav-next .tl-slidenav-content-container,
 .tl-slidenav-previous .tl-slidenav-content-container {
-  background-color: transparent !important; /* Remove background */
-  border-radius: 0 !important; /* Remove rounded corners */
+  background-color: transparent !important;
+  border-radius: 0 !important;
 }
 
-/* Hover state for navigation */
+/* Hover state for navigation (unchanged) */
 .tl-slidenav-next:hover .tl-slidenav-icon,
 .tl-slidenav-previous:hover .tl-slidenav-icon {
-  color: #000 !important; /* Darker on hover */
+  color: #000 !important;
 }
 
-/* Force all text in timeline to dark */
+/* Force all text in timeline to dark (unchanged) */
 #timeline * {
   color: #333 !important;
 }
