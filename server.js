@@ -1,9 +1,7 @@
 import express from 'express';
-import { promises as fs } from 'fs';
-import path from 'path';
-import { decades } from './decades.js';
 import { Octokit } from '@octokit/rest';
 import dotenv from 'dotenv';
+import { decades } from './decades.js';
 
 // Load environment variables
 dotenv.config();
@@ -162,26 +160,32 @@ app.post('/api/approve-event', async (req, res) => {
       return res.status(400).json({ message: `Invalid decade configuration for ${decade}` });
     }
 
-    const filePath = path.join('/tmp', decadeConfig.file);
-    let dataContent;
-    try {
-      dataContent = await fs.readFile(filePath, 'utf8');
-    } catch {
-      dataContent = 'export const timelineData = { title: { text: { headline: "International Relations Timeline", text: "" } }, events: [] };';
-    }
-
+    // Fetch the current decade file from GitHub
+    const githubPath = decadeConfig.file;
     let events = [];
+    let currentFile;
     try {
-      const tempFile = path.join('/tmp', `temp-${Date.now()}.js`);
-      await fs.writeFile(tempFile, dataContent);
-      const module = await import(tempFile);
-      events = module.timelineData.events || [];
-      await fs.unlink(tempFile);
-    } catch (e) {
-      console.error('Error importing data file:', e);
-      events = [];
+      currentFile = await octokit.repos.getContent({
+        ...githubRepo,
+        path: githubPath
+      });
+      const fileContent = Buffer.from(currentFile.data.content, 'base64').toString('utf8');
+      // Parse the file content to extract events
+      const match = fileContent.match(/events:\s*(\[.*?\])\s*}/s);
+      if (match && match[1]) {
+        events = JSON.parse(match[1]);
+      }
+    } catch (error) {
+      if (error.status === 404) {
+        console.log(`Decade file ${githubPath} not found, creating new one`);
+        events = [];
+      } else {
+        console.error('Error fetching decade file from GitHub:', error.message, error.status, error.response?.data);
+        throw new Error(`Failed to fetch decade file: ${error.message}`);
+      }
     }
 
+    // Add the new event
     const newEvent = {
       id: submission.id,
       text: submission.text,
@@ -196,23 +200,11 @@ app.post('/api/approve-event', async (req, res) => {
     }
     events.push(newEvent);
 
+    // Update the decade file on GitHub
     const newContent = `export const timelineData = {
   title: { text: { headline: "International Relations Timeline", text: "" } },
   events: ${JSON.stringify(events, null, 2)}
 };`;
-    await fs.writeFile(filePath, newContent);
-
-    const relativePath = decadeConfig.file;
-    if (!relativePath || typeof relativePath !== 'string') {
-      throw new Error('Invalid file path for decade configuration');
-    }
-    const githubPath = path.join('years', relativePath.split('/').pop());
-
-    const currentFile = await octokit.repos.getContent({
-      ...githubRepo,
-      path: githubPath
-    }).catch(() => null);
-
     await octokit.repos.createOrUpdateFileContents({
       ...githubRepo,
       path: githubPath,
@@ -221,6 +213,7 @@ app.post('/api/approve-event', async (req, res) => {
       sha: currentFile ? currentFile.data.sha : undefined
     });
 
+    // Remove the event from submissions
     const updatedSubmissions = submissions.filter(s => s.id !== id);
     await saveSubmissions(updatedSubmissions);
 
