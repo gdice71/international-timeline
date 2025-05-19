@@ -16,7 +16,16 @@ export const timelineData = {
       category: "Conflict",
       media: {
         url: "https://media.cnn.com/api/v1/images/stellar/prod/140106165256-georgia-conflict-2008.jpg?q=w_3000,h_1996,x_0,y_0,c_fill"
-      }
+      },
+      primarySources: [
+        "https://casebook.icrc.org/case-study/georgiarussia-independent-international-fact-finding-mission-conflict-south-ossetia",
+        "https://www.loc.gov/item/2023692748/",
+        "https://main.un.org/securitycouncil/sites/default/files/en/sc/repertoire/2008-2009/Part%20I/Europe/08-09_Georgia.pdf",
+        "https://casebook.icrc.org/case-study/georgiarussia-human-rights-watchs-report-conflict-south-ossetia",
+        "https://en.wikipedia.org/wiki/Russo-Georgian_War",
+        "https://www.robert-schuman.eu/en/european-issues/0108-the-european-union-and-the-russo-georgian-war",
+      ],
+      summary: "The Russo-Georgian War was a brief but intense conflict that erupted in August 2008 between Russia and Georgia, primarily over the breakaway regions of South Ossetia and Abkhazia. Triggered by escalating tensions and military clashes, the war saw Russian forces intervene on behalf of the separatist regions. Following the conflict, Russia formally recognized the independence of both South Ossetia and Abkhazia, a move that heightened regional instability and strained international relations."
     },
     {
       text: {
@@ -33,7 +42,18 @@ export const timelineData = {
       category: "Terrorism",
       media: {
         url: "https://cdn.britannica.com/15/152315-050-226AA671/twin-towers-skyline-Lower-Manhattan-World-Trade-center.jpg"
-      }
+      },
+      primarySources: [
+        "https://www.archives.gov/news/topics/9-11-anniversary",
+        "https://georgewbush-whitehouse.archives.gov/news/releases/2001/09/20010911-16.html",
+        "https://www.ojp.gov/ncjrs/virtual-library/abstracts/911-commission-report",
+        "https://www.govinfo.gov/content/pkg/GPO-911REPORT/pdf/GPO-911REPORT-24.pdf",
+        "https://www.museumoftolerance.com/visit/september-11-virtual-gallery.html",
+        "https://bsu.libguides.com/c.php?g=1169335&p=8540908",
+        "https://shsulibraryguides.org/c.php?g=86715&p=558023",
+
+      ],
+      summary: "The 9/11 Attacks occurred on September 11, 2001, when terrorists affiliated with al-Qaeda hijacked four commercial airplanes, crashing two into the World Trade Center in New York City and one into the Pentagon in Arlington, Virginia, while the fourth, United Airlines Flight 93, crashed in Pennsylvania after passengers intervened. The attacks caused nearly 3,000 deaths, leading the United States to launch the War on Terror and initiate military intervention in Afghanistan to dismantle al-Qaeda and remove the Taliban from power."
     },
     {
       text: {
@@ -74,7 +94,13 @@ export const timelineData = {
       category: "Integration",
       media: {
         url: "https://eu.bilgi.edu.tr/media/blogs/10/2.png"
-      }
+      },
+      primarySources: [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/?uri=OJ:L:2003:236:TOC",
+        "https://ec.europa.eu/commission/presscorner/detail/en/ip_04_535",
+        "https://ec.europa.eu/commission/presscorner/detail/en/SPEECH_04_219",
+      ],
+      summary: "The EU Expansion of 2004 marked the largest single enlargement of the European Union on May 1, 2004, when ten new countries joined the bloc. These countries were Cyprus, the Czech Republic, Estonia, Hungary, Latvia, Lithuania, Malta, Poland, Slovakia, and Slovenia. This historic event significantly increased the EU's size and diversity, fostering economic integration and political cooperation across Europe, while symbolizing the consolidation of democratic and market-oriented reforms in Eastern and Central Europe."
     },
     {
       text: {
@@ -91,7 +117,14 @@ export const timelineData = {
       category: "Environmental Treaty",
       media: {
         url: "https://cdn.britannica.com/35/91935-050-C178046B/Vice-Pres-speech-Al-Gore-conference-Kyoto-December-1997.jpg"
-      }
+      },
+      primarySources: [
+        "https://treaties.un.org/Pages/ViewDetails.aspx?src=TREATY&mtdsg_no=XXVII-7-a&chapter=27&clang=_en",
+        "https://unfccc.int/kyoto_protocol",
+        "https://digitallibrary.un.org/record/250111?ln=en&v=pdf",
+        "https://unfccc.int/files/kyoto_protocol/application/pdf/kp_consoldiated_text.pdf",
+      ],
+      summary: "The Kyoto Protocol came into force on February 16, 2005, as an international treaty aimed at combating climate change by legally binding participating countries to reduce greenhouse gas emissions. Adopted in 1997 under the United Nations Framework Convention on Climate Change (UNFCCC), it represented a landmark effort to address global warming by setting specific reduction targets for industrialized nations. The protocol laid the foundation for future climate agreements and highlighted the global commitment to environmental sustainability."
     },
     {
       text: {
@@ -108,7 +141,16 @@ export const timelineData = {
       category: "Economic Crisis",
       media: {
         url: "https://media.licdn.com/dms/image/v2/C5112AQHIkkozwMyyow/article-cover_image-shrink_600_2000/article-cover_image-shrink_600_2000/0/1568657254235?e=2147483647&v=beta&t=lne47nKRFXrMHFdy8Psv7VnBbdpcTdiE2MVQRJC0udA"
-      }
+      },
+      primarySources: [
+        "https://www.govinfo.gov/content/pkg/GPO-FCIC/pdf/GPO-FCIC.pdf",
+        "https://dm.epiq11.com/case/lehman/info",
+        "https://www.hsgac.senate.gov/wp-content/uploads/imo/media/doc/Financial_Crisis/FinancialCrisisReport.pdf",
+        "https://www.thebalancemoney.com/lehman-brothers-collapse-causes-impact-4842338",
+        "https://www.federalreserve.gov/newsevents/pressreleases/other20080916a.htm",
+        "https://www.c-span.org/program/public-affairs-event/minnesota-senate-debate/195891",
+      ],
+      summary: "The Global Financial Crisis of 2008 began with the collapse of Lehman Brothers on September 15, 2008, marking the largest bankruptcy in U.S. history at the time. Triggered by a subprime mortgage crisis, the failure of Lehman Brothers led to a severe liquidity crisis, causing widespread panic in global financial markets. Stock markets plummeted, credit froze, and major economies entered a deep recession. Governments and central banks worldwide responded with unprecedented bailouts and monetary policy interventions to stabilize the financial system. The crisis exposed vulnerabilities in global finance, leading to long-term regulatory reforms like the Dodd-Frank Act."
     },
     {
       text: {
@@ -125,7 +167,15 @@ export const timelineData = {
       category: "Treaty",
       media: {
         url: "https://www.cvce.eu/content/publication/2007/12/20/f8ace492-aa08-4dcf-9cb5-79dff98eaaac/publishable.jpg"
-      }
+      },
+      primarySources: [
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:C:2007:306:FULL",
+        "https://eur-lex.europa.eu/legal-content/EN/TXT/PDF/?uri=OJ:C:2008:115:FULL",
+        "https://www.consilium.europa.eu/uedocs/cms_data/docs/pressdata/en/ec/97669.pdf",
+        "https://www.europarl.europa.eu/doceo/document/TA-6-2007-0577_EN.html",
+
+      ],
+      summary: "The Treaty of Lisbon, signed on December 13, 2007, in Lisbon, Portugal, reformed the European Union to enhance its efficiency and streamline decision-making. It amended the Treaty on European Union and the Treaty establishing the European Community, introducing key changes: a permanent EU Council President, a strengthened European Parliament with expanded legislative powers, simplified Qualified Majority Voting, and a single legal personality for the EU to act globally. Negotiated through the 2007 Intergovernmental Conference under Portugal’s EU Presidency, the treaty aimed to improve democratic legitimacy and institutional effectiveness following the rejected Constitutional Treaty. It was signed by EU leaders and entered into force on December 1, 2009, after ratification by all member states."
     }
   ]
 };
