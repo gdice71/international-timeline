@@ -55,10 +55,12 @@ export const timelineData =
         url: 'https://www.americanspecialops.com/images/force-recon/marines-hmmwvs.jpg'
       },
       primarySources: [
-        "https://www.archives.gov/files/presidential-libraries/president-bush-addresses-nation-2003.pdf",
-        "https://www.un.org/Depts/unmovic/documents/1441.pdf"
+        "https://archive.globalpolicy.org/component/content/article/167-attack/35266-president-george-w-bushs-speech-on-iraq.html",
+        "https://www.americanrhetoric.com/speeches/wariniraq/gwbushiraq31903.htm",
+        "https://transcripts.cnn.com/show/se/date/2003-03-19/segment/07",
+        "https://www.un.org/depts/unmovic/SC7asdelivered.htm"
       ],
-      summary: "On March 20, 2003, the U.S., alongside coalition forces from the UK, Australia, and others, launched Operation Iraqi Freedom to overthrow Saddam Hussein’s regime. The invasion was preceded by months of diplomatic tension, including UN inspections for weapons of mass destruction (WMDs) and Colin Powell’s February 2003 UN presentation. The rapid military campaign captured Baghdad by April 9, but the absence of WMDs and ensuing insurgency sparked global controversy."
+      summary: "The Iraq War commenced on March 19, 2003, when a U.S.-led coalition, primarily comprising forces from the United States, the United Kingdom, Australia, and Poland, initiated military operations against Iraq. The primary objectives were to dismantle Iraq's alleged weapons of mass destruction (WMD) programs, end Saddam Hussein's support for terrorism, and liberate the Iraqi people from his authoritarian regime."
     },
     {
       text: {
