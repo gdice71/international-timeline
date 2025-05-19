@@ -14,5 +14,21 @@
     "category": "Conflict",
     "primarySources": [],
     "summary": ""
+  },
+  {
+    "id": "1747660713118",
+    "text": {
+      "headline": "test",
+      "text": "test"
+    },
+    "start_date": {
+      "year": "2001",
+      "month": "01",
+      "day": "01"
+    },
+    "group": "Global",
+    "category": "Conflict",
+    "primarySources": [],
+    "summary": ""
   }
 ]
