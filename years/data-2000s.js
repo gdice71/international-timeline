@@ -74,14 +74,48 @@ export const timelineData = {
         url: "https://cdn.britannica.com/15/152315-050-226AA671/twin-towers-skyline-Lower-Manhattan-World-Trade-center.jpg"
       },
       primarySources: [
-        "https://www.archives.gov/news/topics/9-11-anniversary",
-        "https://georgewbush-whitehouse.archives.gov/news/releases/2001/09/20010911-16.html",
-        "https://www.ojp.gov/ncjrs/virtual-library/abstracts/911-commission-report",
-        "https://www.govinfo.gov/content/pkg/GPO-911REPORT/pdf/GPO-911REPORT-24.pdf",
-        "https://www.museumoftolerance.com/visit/september-11-virtual-gallery.html",
-        "https://bsu.libguides.com/c.php?g=1169335&p=8540908",
-        "https://shsulibraryguides.org/c.php?g=86715&p=558023",
-
+        {
+          "url": "https://www.archives.gov/news/topics/9-11-anniversary",
+          "title": "Remembering 9/11 – National Archives Commemoration and Resources",
+          "summary": "The National Archives' 9/11 page commemorates the September 11 attacks, featuring photographs, artifacts, educational resources, and records from the 9/11 Commission.",
+          "relevance": "Useful for educators, researchers, and anyone interested in the historical impact and remembrance of 9/11."
+        },
+        {
+          "url": "https://georgewbush-whitehouse.archives.gov/news/releases/2001/09/20010911-16.html",
+          "title": "President George W. Bush’s Address to the Nation on September 11, 2001",
+          "summary": "This archived White House page contains President George W. Bush's address to the nation on September 11, 2001, detailing the initial response to the terrorist attacks and the beginning of the War on Terror.",
+          "relevance": "Key historical speech reflecting leadership and unity during a national crisis."
+        },
+        {
+          "url": "https://www.ojp.gov/ncjrs/virtual-library/abstracts/911-commission-report",
+          "title": "The 9/11 Commission Report",
+          "summary": "This 585-page report, published in 2004 by the National Commission on Terrorist Attacks Upon the United States, provides a comprehensive account of the events leading up to and following the September 11, 2001, terrorist attacks. It examines the evolution of al Qaeda, details the planning and execution of the attacks, and analyzes the U.S. government's preparedness and response. The report identifies failures in intelligence sharing and coordination among federal agencies and offers recommendations to enhance national security and prevent future terrorist acts.",
+          "relevance": "Essential for understanding the circumstances of 9/11, this report serves as a foundational document for policymakers, security professionals, educators, and researchers studying terrorism, national security, and governmental reform."
+        },
+        {
+          "url": "https://www.govinfo.gov/content/pkg/GPO-911REPORT/pdf/GPO-911REPORT-24.pdf",
+          "title": "The 9/11 Commission Report – Executive Summary",
+          "summary": "The Executive Summary of the 9/11 Commission Report provides a concise overview of the events leading up to and following the September 11, 2001, terrorist attacks. It outlines the origins and evolution of al-Qaeda, the planning and execution of the attacks, and the U.S. government's preparedness and response. The summary also highlights systemic failures in intelligence sharing and coordination among federal agencies and offers recommendations to enhance national security and prevent future terrorist acts.",
+          "relevance": "This summary is essential for educators, researchers, policymakers, and anyone interested in understanding the key findings and recommendations of the 9/11 Commission. It serves as a foundational document for studying terrorism, national security, and governmental reform."
+        },
+        {
+          "url": "https://www.museumoftolerance.com/visit/september-11-virtual-gallery.html",
+          "title": "Esteban Silva’s Eyewitness Photographic Testimony of 9/11",
+          "summary": "This virtual gallery from the Museum of Tolerance showcases a series of photographs taken by Esteban Silva, who was present in the South Tower of the World Trade Center during the September 11 attacks. As Silva evacuated the building, he captured images that document the immediate aftermath and chaos of that day. The gallery provides a personal perspective on the events, offering viewers a poignant visual narrative of the tragedy.",
+          "relevance": "Silva’s firsthand account and photographs serve as powerful educational tools, preserving the memory of 9/11 through personal experience."
+        },
+        {
+          "url": "https://bsu.libguides.com/c.php?g=1169335&p=8540908",
+          "title": "The September 11, 2001 terrorist attacks",
+          "summary": "This LibGuide from Ball State University presents digitized primary sources from the University Libraries' Archives and Special Collections, capturing the reactions of Ball State students to the September 11, 2001, terrorist attacks. The collection includes personal narratives, photographs, and other materials that document the campus community's response to the events of 9/11.",
+          "relevance": "These firsthand accounts provide valuable insights into the immediate emotional and social impact of 9/11 on a university community. The collection is a useful resource for educators, researchers, and students studying the societal effects of the attacks."
+        },
+        {
+          "url": "https://shsulibraryguides.org/c.php?g=86715&p=558023",
+          "title": "U.S. History: Primary Source Collections Online",
+          "summary": "This research guide from Sam Houston State University’s Newton Gresham Library offers curated resources on the September 11 attacks and the subsequent wars in Afghanistan and Iraq. It provides access to primary source collections, scholarly articles, and historical documents, facilitating in-depth research into these pivotal events in U.S. history.",
+          "relevance": "An essential resource for students, educators, and researchers focusing on early 21st-century U.S. foreign policy, military history, and the global impact of the 9/11 attacks."
+        }
       ],
       summary: "The 9/11 Attacks occurred on September 11, 2001, when terrorists affiliated with al-Qaeda hijacked four commercial airplanes, crashing two into the World Trade Center in New York City and one into the Pentagon in Arlington, Virginia, while the fourth, United Airlines Flight 93, crashed in Pennsylvania after passengers intervened. The attacks caused nearly 3,000 deaths, leading the United States to launch the War on Terror and initiate military intervention in Afghanistan to dismantle al-Qaeda and remove the Taliban from power."
     },
