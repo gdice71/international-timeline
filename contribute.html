@@ -3,37 +3,30 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Contribute - Global Relations Timeline</title>
-  <link rel="stylesheet" href="/styles.css">
-  <link href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;700&display=swap" rel="stylesheet">
+  <title>Contribute - International Relations Timeline</title>
+  <link rel="stylesheet" href="styles.css">
 </head>
 <body>
   <header>
-    <h1>Global Relations Timeline</h1>
+    <h1>International Relations Timeline</h1>
     <nav>
-      <a href="/index.html">Home</a>
-      <a href="/about.html">About</a>
-      <a href="/contribute.html">Contribute</a>
+      <a href="index.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="contribute.html">Contribute</a>
     </nav>
   </header>
 
-  <section id="contribute-form">
-    <h2>Submit an Event</h2>
-    <form id="event-form">
-      <label for="headline">Event Headline:</label>
-      <input type="text" id="headline" name="headline" required>
-
-      <label for="description">Description:</label>
-      <textarea id="description" name="description" rows="5" required></textarea>
-
-      <label for="summary">Detailed Summary (optional):</label>
-      <textarea id="summary" name="summary" rows="8"></textarea>
-
-      <label for="date">Event Date (YYYY-MM-DD):</label>
-      <input type="date" id="date" name="date" required>
-
-      <label for="region">Region:</label>
-      <select id="region" name="region" required>
+  <main>
+    <form id="contribute-form">
+      <h2>Contribute an Event</h2>
+      <label>Headline:</label>
+      <input type="text" name="headline" required>
+      <label>Description:</label>
+      <textarea name="description" required></textarea>
+      <label>Date (YYYY-MM-DD):</label>
+      <input type="text" name="date" pattern="\d{4}-\d{2}-\d{2}" required>
+      <label>Region:</label>
+      <select name="region" required>
         <option value="">Select Region</option>
         <option value="Global">Global</option>
         <option value="North America">North America</option>
@@ -47,9 +40,8 @@
         <option value="Antarctic">Antarctic</option>
         <option value="International Waters">International Waters</option>
       </select>
-
-      <label for="category">Category:</label>
-      <select id="category" name="category" required>
+      <label>Category:</label>
+      <select name="category" required>
         <option value="">Select Category</option>
         <option value="Conflict">Conflict</option>
         <option value="Diplomacy">Diplomacy</option>
@@ -77,83 +69,36 @@
         <option value="Cyber Attack">Cyber Attack</option>
         <option value="Security Alliance">Security Alliance</option>
       </select>
-
-      <label for="imageUrl">Image URL (optional):</label>
-      <input type="url" id="imageUrl" name="imageUrl">
-
-      <label>Primary Sources (optional):</label>
+      <label>Image URL (optional):</label>
+      <input type="url" name="image-url">
+      <label>Summary (optional):</label>
+      <textarea name="summary"></textarea>
+      <h3>Primary Sources</h3>
       <div id="sources-container">
-        <input type="url" name="primarySources" placeholder="Enter source URL">
+        <div class="source">
+          <label>URL:</label>
+          <input type="url" name="source-url-0" required>
+          <label>Title:</label>
+          <input type="text" name="source-title-0">
+          <label>Summary:</label>
+          <textarea name="source-summary-0"></textarea>
+          <label>Relevance:</label>
+          <textarea name="source-relevance-0"></textarea>
+          <button type="button" class="remove-source">Remove</button>
+        </div>
       </div>
-      <button type="button" id="add-source">Add Another Source</button>
-
+      <div>
+        <button type="button" id="add-source">Add Another Source</button>
+      </div>
       <button type="submit">Submit Event</button>
+      <div id="form-message"></div>
     </form>
-    <p id="form-message"></p>
-  </section>
+  </main>
 
   <footer>
     <p>Data from UN, Wikipedia, and contributors. © 2025</p>
   </footer>
 
-  <script>
-    document.getElementById('event-form').addEventListener('submit', async (e) => {
-      e.preventDefault();
-      const form = e.target;
-      const headline = form.querySelector('#headline').value.trim();
-      const description = form.querySelector('#description').value.trim();
-      const date = form.querySelector('#date').value;
-      const region = form.querySelector('#region').value;
-      const category = form.querySelector('#category').value;
-
-      if (!headline || !description || !date || !region || !category) {
-        document.getElementById('form-message').textContent = 'All required fields (Headline, Description, Date, Region, Category) must be filled.';
-        return;
-      }
-
-      const formData = new FormData(form);
-      const sources = Array.from(form.querySelectorAll('input[name="primarySources"]'))
-        .map(input => input.value.trim())
-        .filter(value => value !== '');
-
-      const data = {
-        headline,
-        description,
-        summary: formData.get('summary') || '',
-        date,
-        region,
-        category,
-        imageUrl: formData.get('imageUrl') || '',
-        primarySources: sources
-      };
-
-      try {
-        const response = await fetch('/api/submit-event', {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data)
-        });
-        const result = await response.json();
-        if (!response.ok) {
-          throw new Error(result.message || 'Failed to submit event');
-        }
-        document.getElementById('form-message').textContent = result.message;
-        form.reset();
-        document.getElementById('sources-container').innerHTML = '<input type="url" name="primarySources" placeholder="Enter source URL">';
-      } catch (error) {
-        console.error('Submission error:', error);
-        document.getElementById('form-message').textContent = error.message;
-      }
-    });
-
-    document.getElementById('add-source').addEventListener('click', () => {
-      const container = document.getElementById('sources-container');
-      const input = document.createElement('input');
-      input.type = 'url';
-      input.name = 'primarySources';
-      input.placeholder = 'Enter source URL';
-      container.appendChild(input);
-    });
-  </script>
+  <script src="contribute.js"></script>
 </body>
 </html>

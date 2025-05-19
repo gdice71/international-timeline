@@ -129,6 +129,34 @@ footer {
   color: #333;
 }
 
+/* Source fields styling */
+.source {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.source label {
+  margin-top: 0.5rem;
+}
+
+.source input,
+.source textarea {
+  margin-bottom: 0.5rem;
+}
+
+.remove-source {
+  background: #ccc;
+  color: #333;
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.remove-source:hover {
+  background: #aaa;
+}
+
 /* Admin page styling */
 #submissions {
   max-width: 800px;
