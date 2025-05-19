@@ -2,25 +2,54 @@ import express from 'express';
 import { promises as fs } from 'fs';
 import path from 'path';
 import { decades } from './decades.js';
+import { Octokit } from '@octokit/rest';
 
 const app = express();
 const port = process.env.PORT || 3000;
 
+// Initialize GitHub API client
+const octokit = new Octokit({ auth: process.env.GITHUB_TOKEN });
+const githubRepo = {
+  owner: process.env.GITHUB_REPO.split('/')[0],
+  repo: process.env.GITHUB_REPO.split('/')[1]
+};
+
+// Middleware
 app.use(express.json());
 app.use(express.static('.'));
 
-const submissionsFile = path.join('/tmp', 'submissions.json');
-
-async function initializeSubmissions() {
+async function getSubmissions() {
   try {
-    const content = await fs.readFile(submissionsFile, 'utf8');
-    if (!content.trim()) {
-      await fs.writeFile(submissionsFile, JSON.stringify([]));
-    } else {
-      JSON.parse(content);
+    const { data } = await octokit.repos.getContent({
+      ...githubRepo,
+      path: 'submissions.json'
+    });
+    return JSON.parse(Buffer.from(data.content, 'base64').toString('utf8'));
+  } catch (error) {
+    if (error.status === 404) {
+      return [];
     }
-  } catch {
-    await fs.writeFile(submissionsFile, JSON.stringify([]));
+    throw error;
+  }
+}
+
+async function saveSubmissions(submissions) {
+  try {
+    const current = await octokit.repos.getContent({
+      ...githubRepo,
+      path: 'submissions.json'
+    }).catch(() => null);
+
+    await octokit.repos.createOrUpdateFileContents({
+      ...githubRepo,
+      path: 'submissions.json',
+      message: 'Update submissions.json',
+      content: Buffer.from(JSON.stringify(submissions, null, 2)).toString('base64'),
+      sha: current ? current.data.sha : undefined
+    });
+  } catch (error) {
+    console.error('Error saving submissions:', error.message);
+    throw error;
   }
 }
 
@@ -50,24 +79,17 @@ app.post('/api/submit-event', async (req, res) => {
       group: region,
       category,
       primarySources: primarySources || [],
-      summary: summary || "" // Include summary, default to empty string
+      summary: summary || ""
     };
 
     if (imageUrl) {
       event.media = { url: imageUrl };
     }
 
-    await initializeSubmissions();
-    let submissions = [];
-    try {
-      const content = await fs.readFile(submissionsFile, 'utf8');
-      submissions = JSON.parse(content);
-    } catch {
-      submissions = [];
-    }
+    const submissions = await getSubmissions();
     submissions.push(event);
+    await saveSubmissions(submissions);
 
-    await fs.writeFile(submissionsFile, JSON.stringify(submissions, null, 2));
     console.log('Submission saved:', event.id);
     res.json({ message: 'Event submitted for review' });
   } catch (error) {
@@ -88,9 +110,7 @@ app.get('/api/event/:id', async (req, res) => {
     }
 
     if (!foundEvent) {
-      await initializeSubmissions();
-      const content = await fs.readFile(submissionsFile, 'utf8');
-      const submissions = JSON.parse(content);
+      const submissions = await getSubmissions();
       foundEvent = submissions.find(event => event.id === eventId);
     }
 
@@ -112,25 +132,19 @@ app.post('/api/approve-event', async (req, res) => {
       return res.status(400).json({ message: 'Invalid request' });
     }
 
-    await initializeSubmissions();
-    let submissions = [];
-    try {
-      const content = await fs.readFile(submissionsFile, 'utf8');
-      submissions = JSON.parse(content);
-    } catch {
-      submissions = [];
-    }
+    const submissions = await getSubmissions();
     const submission = submissions.find(s => s.id === id);
     if (!submission) {
       return res.status(404).json({ message: 'Submission not found' });
     }
 
     if (action === 'reject') {
-      submissions = submissions.filter(s => s.id !== id);
-      await fs.writeFile(submissionsFile, JSON.stringify(submissions, null, 2));
+      const updatedSubmissions = submissions.filter(s => s.id !== id);
+      await saveSubmissions(updatedSubmissions);
       return res.json({ message: 'Submission rejected' });
     }
 
+    // Approve: Add to decade file
     const decade = `${Math.floor(submission.start_date.year / 10) * 10}s`;
     const decadeConfig = decades.find(d => d.decade === decade);
     if (!decadeConfig) {
@@ -164,7 +178,7 @@ app.post('/api/approve-event', async (req, res) => {
       group: submission.group,
       category: submission.category,
       primarySources: submission.primarySources || [],
-      summary: submission.summary || "" // Include summary
+      summary: submission.summary || ""
     };
     if (submission.media) {
       newEvent.media = submission.media;
@@ -177,25 +191,20 @@ app.post('/api/approve-event', async (req, res) => {
 };`;
     await fs.writeFile(filePath, newContent);
 
-    submissions = submissions.filter(s => s.id !== id);
-    await fs.writeFile(submissionsFile, JSON.stringify(submissions, null, 2));
+    // Remove from submissions
+    const updatedSubmissions = submissions.filter(s => s.id !== id);
+    await saveSubmissions(updatedSubmissions);
+
     res.json({ message: 'Event approved and added to timeline' });
   } catch (error) {
     console.error('Error processing approval:', error.message);
-    res.status(500). TALjson({ message: 'Server error' });
+    res.status(500).json({ message: 'Server error' });
   }
 });
 
 app.get('/api/submissions', async (req, res) => {
   try {
-    await initializeSubmissions();
-    let submissions = [];
-    try {
-      const content = await fs.readFile(submissionsFile, 'utf8');
-      submissions = JSON.parse(content);
-    } catch {
-      submissions = [];
-    }
+    const submissions = await getSubmissions();
     res.json(submissions);
   } catch (error) {
     console.error('Error reading submissions:', error.message);
