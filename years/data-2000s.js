@@ -18,12 +18,42 @@ export const timelineData = {
         url: "https://media.cnn.com/api/v1/images/stellar/prod/140106165256-georgia-conflict-2008.jpg?q=w_3000,h_1996,x_0,y_0,c_fill"
       },
       primarySources: [
-        "https://casebook.icrc.org/case-study/georgiarussia-independent-international-fact-finding-mission-conflict-south-ossetia",
-        "https://www.loc.gov/item/2023692748/",
-        "https://main.un.org/securitycouncil/sites/default/files/en/sc/repertoire/2008-2009/Part%20I/Europe/08-09_Georgia.pdf",
-        "https://casebook.icrc.org/case-study/georgiarussia-human-rights-watchs-report-conflict-south-ossetia",
-        "https://en.wikipedia.org/wiki/Russo-Georgian_War",
-        "https://www.robert-schuman.eu/en/european-issues/0108-the-european-union-and-the-russo-georgian-war",
+        {
+          url: "https://casebook.icrc.org/case-study/georgiarussia-independent-international-fact-finding-mission-conflict-south-ossetia",
+          title: "ICRC Case Study: Independent Fact-Finding Mission",
+          summary: "A detailed case study by the International Committee of the Red Cross (ICRC) analyzing the findings of the Independent International Fact-Finding Mission on the Conflict in South Ossetia.",
+          relevance: "Provides an authoritative and neutral assessment of the conflict, focusing on international humanitarian law violations."
+        },
+        {
+          url: "https://www.loc.gov/item/2023692748/",
+          title: "Library of Congress: Georgia/Russia Conflict Report",
+          summary: "A report archived by the Library of Congress detailing the 2008 conflict between Georgia and Russia, including historical context and outcomes.",
+          relevance: "Offers a historical archive perspective with official documentation of the conflict’s impact and aftermath."
+        },
+        {
+          url: "https://main.un.org/securitycouncil/sites/default/files/en/sc/repertoire/2008-2009/Part%20I/Europe/08-09_Georgia.pdf",
+          title: "UN Security Council Repertoire: Georgia Conflict",
+          summary: "Official UN Security Council document outlining discussions and actions taken regarding the Georgia conflict in 2008-2009.",
+          relevance: "Captures the international community’s response and diplomatic efforts to address the crisis."
+        },
+        {
+          url: "https://casebook.icrc.org/case-study/georgiarussia-human-rights-watchs-report-conflict-south-ossetia",
+          title: "ICRC Case Study: Human Rights Watch Report",
+          summary: "An ICRC case study summarizing Human Rights Watch’s report on the South Ossetia conflict, focusing on human rights violations.",
+          relevance: "Highlights human rights abuses during the conflict, providing evidence of civilian impact."
+        },
+        {
+          url: "https://en.wikipedia.org/wiki/Russo-Georgian_War",
+          title: "Wikipedia: Russo-Georgian War",
+          summary: "A comprehensive Wikipedia entry covering the timeline, causes, and consequences of the Russo-Georgian War.",
+          relevance: "Serves as a general overview and starting point for understanding the conflict’s background and key events."
+        },
+        {
+          url: "https://www.robert-schuman.eu/en/european-issues/0108-the-european-union-and-the-russo-georgian-war",
+          title: "Robert Schuman Foundation: EU and the Russo-Georgian War",
+          summary: "An article by the Robert Schuman Foundation analyzing the European Union’s role and response to the Russo-Georgian War.",
+          relevance: "Explains the EU’s mediation efforts and the geopolitical implications for European-Russian relations."
+        },
       ],
       summary: "The Russo-Georgian War was a brief but intense conflict that erupted in August 2008 between Russia and Georgia, primarily over the breakaway regions of South Ossetia and Abkhazia. Triggered by escalating tensions and military clashes, the war saw Russian forces intervene on behalf of the separatist regions. Following the conflict, Russia formally recognized the independence of both South Ossetia and Abkhazia, a move that heightened regional instability and strained international relations."
     },
